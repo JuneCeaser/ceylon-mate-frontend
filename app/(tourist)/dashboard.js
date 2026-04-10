@@ -73,7 +73,7 @@ const QUICK_ACTIONS = [
     { icon: 'map-outline', label: 'Plan Trip', route: '/(tourist)/itinerary', colors: ['#1565C0', '#1976D2'] },
     { icon: 'shield-checkmark-outline', label: 'Risk Check', route: '/(tourist)/risk', colors: ['#B71C1C', '#D32F2F'] },
     { icon: 'location-outline', label: 'Emergency Map', route: '/(tourist)/emergency-map', colors: ['#4A148C', '#7B1FA2'] },
-    { icon: 'person-outline', label: 'My Profile', route: '/(tourist)/profile', colors: ['#E65100', '#F57C00'] },
+    { icon: 'time-outline', label: 'History', route: '/(tourist)/place', colors: ['#5D4037', '#8D6E63'] },
 ];
 
 export default function TouristDashboard() {
@@ -92,7 +92,6 @@ export default function TouristDashboard() {
     const pulseAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
-        // Pulse animation for SOS button when active
         if (userActiveAlert) {
             Animated.loop(
                 Animated.sequence([
@@ -243,7 +242,6 @@ export default function TouristDashboard() {
             >
                 {/* ── HEADER ── */}
                 <LinearGradient colors={['#1B5E20', '#2E7D32', '#388E3C']} style={styles.header} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-                    {/* decorative circles */}
                     <View style={styles.headerCircle1} />
                     <View style={styles.headerCircle2} />
 
@@ -263,6 +261,16 @@ export default function TouristDashboard() {
                             </View>
 
                             <View style={styles.headerRight}>
+                                {/* ── PROFILE BUTTON (new) ── */}
+                                <TouchableOpacity
+                                    style={styles.profileBtn}
+                                    onPress={() => router.push('/(tourist)/profile')}
+                                >
+                                    <View style={styles.profileBtnInner}>
+                                        <Ionicons name="person" size={18} color="#fff" />
+                                    </View>
+                                </TouchableOpacity>
+
                                 {showAlertIndicator && (
                                     <TouchableOpacity style={styles.alertDot} onPress={() => router.push('/(tourist)/emergency-map')}>
                                         <Ionicons name="warning" size={18} color="#fff" />
@@ -352,11 +360,9 @@ export default function TouristDashboard() {
                                 onPress={() => router.push('/(tourist)/itinerary')}
                             >
                                 <LinearGradient colors={dest.colors} style={styles.featuredGrad} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
-                                    {/* decorative blobs */}
                                     <View style={[styles.featuredBlob1, { backgroundColor: dest.accent + '30' }]} />
                                     <View style={[styles.featuredBlob2, { backgroundColor: 'rgba(0,0,0,0.15)' }]} />
 
-                                    {/* top row: tag + popularity */}
                                     <View style={styles.featuredTopRow}>
                                         <View style={[styles.featuredTagPill, { backgroundColor: dest.accent + '35', borderColor: dest.accent + '60' }]}>
                                             <Text style={[styles.featuredTagText, { color: dest.accent }]}>{dest.tag}</Text>
@@ -367,12 +373,10 @@ export default function TouristDashboard() {
                                         </View>
                                     </View>
 
-                                    {/* center icon */}
                                     <View style={[styles.featuredIconWrap, { backgroundColor: dest.accent + '25' }]}>
                                         <Ionicons name={dest.icon} size={36} color={dest.accent} />
                                     </View>
 
-                                    {/* bottom info */}
                                     <View>
                                         <Text style={styles.featuredName}>{dest.name}</Text>
                                         <View style={styles.featuredDistrictRow}>
@@ -558,6 +562,15 @@ const styles = StyleSheet.create({
     statNum: { fontSize: 28, fontWeight: 'bold', color: '#fff' },
     statLbl: { fontSize: 11, color: 'rgba(255,255,255,0.75)', marginTop: 2 },
     statDivider: { width: 1, backgroundColor: 'rgba(255,255,255,0.25)', marginVertical: 4 },
+
+    // Profile button (new)
+    profileBtn: { marginRight: 2 },
+    profileBtnInner: {
+        width: 38, height: 38, borderRadius: 19,
+        backgroundColor: 'rgba(255,255,255,0.25)',
+        borderWidth: 2, borderColor: 'rgba(255,255,255,0.5)',
+        justifyContent: 'center', alignItems: 'center',
+    },
 
     // Sections
     section: { paddingHorizontal: Spacing.lg, marginTop: Spacing.lg },

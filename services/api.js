@@ -1,7 +1,7 @@
 // services/api.js
 // Central service for all Node backend calls
 
-const BASE_URL = 'http://192.168.1.2:3001'; // Change to your machine IP (not localhost on device)
+const BASE_URL = 'http://192.168.8.101'; // Change to your machine IP (not localhost on device)
 
 async function request(path, options = {}) {
     const url = `${BASE_URL}${path}`;

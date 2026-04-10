@@ -20,8 +20,166 @@ import { db } from '../../config/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { ConditionalMapView, ConditionalMarker } from '../../components/MapWrapper';
 import { predictRisk, predictItineraryRisk } from '../../services/api';
+import { loadAttractions } from '../../services/csvDataLoader';
 
 const { width, height } = Dimensions.get('window');
+
+// ── Inline Safer Alternatives Panel ─────────────────────────────────────────
+function AltPanel({ altResults, altLoading, originalLocation, onBack, onClose, getRiskColor, getRiskLabel }) {
+    const origScore = parseFloat(originalLocation?.risk_score ?? originalLocation?.riskScore ?? 0);
+
+    return (
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 48 }}>
+            {/* Header row */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                <TouchableOpacity
+                    onPress={onBack}
+                    style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#F0F0F0', justifyContent: 'center', alignItems: 'center', marginRight: 10 }}
+                >
+                    <Ionicons name="arrow-back" size={20} color="#333" />
+                </TouchableOpacity>
+                <Text style={{ flex: 1, fontSize: 18, fontWeight: '700', color: '#111' }}>Safer Alternatives</Text>
+                <TouchableOpacity
+                    onPress={onClose}
+                    style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#F0F0F0', justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <Ionicons name="close" size={18} color="#333" />
+                </TouchableOpacity>
+            </View>
+
+            {/* Loading */}
+            {altLoading && (
+                <View style={{ alignItems: 'center', paddingVertical: 40 }}>
+                    <ActivityIndicator size="large" color="#1565C0" />
+                    <Text style={{ marginTop: 12, fontSize: 14, color: '#666' }}>Running risk analysis nearby...</Text>
+                </View>
+            )}
+
+            {/* Error */}
+            {!altLoading && altResults?.error && (
+                <View style={{ alignItems: 'center', paddingVertical: 32 }}>
+                    <Ionicons name="alert-circle-outline" size={48} color="#E53935" />
+                    <Text style={{ marginTop: 10, fontSize: 15, color: '#333', fontWeight: '600' }}>Analysis failed</Text>
+                    <Text style={{ marginTop: 4, fontSize: 13, color: '#888', textAlign: 'center' }}>{altResults.error}</Text>
+                </View>
+            )}
+
+            {!altLoading && altResults && !altResults.error && (
+                <>
+                    {/* Weather advisory */}
+                    {altResults.weatherRisky && altResults.weatherReason && (
+                        <View style={{ flexDirection: 'row', gap: 10, backgroundColor: '#E3F2FD', borderRadius: 10, padding: 12, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: '#1565C0' }}>
+                            <Ionicons name="rainy-outline" size={18} color="#1565C0" />
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ fontSize: 12, fontWeight: '700', color: '#1565C0', marginBottom: 2 }}>Weather advisory</Text>
+                                <Text style={{ fontSize: 12, color: '#1A237E', lineHeight: 17 }}>
+                                    {altResults.weatherReason}
+                                    {altResults.venueFilterApplied ? ` — showing ${altResults.wantIndoor ? 'indoor' : 'outdoor'} alternatives` : ''}
+                                </Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {/* Expanded search notice */}
+                    {altResults.expandedSearch && (
+                        <View style={{ flexDirection: 'row', gap: 8, backgroundColor: '#FFF8E1', borderRadius: 10, padding: 12, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: '#F9A825' }}>
+                            <Ionicons name="expand-outline" size={16} color="#F9A825" />
+                            <Text style={{ flex: 1, fontSize: 12, color: '#5D4037', lineHeight: 17 }}>
+                                Fewer than 3 alternatives within {altResults.localRadius}km — showing best options across Sri Lanka.
+                            </Text>
+                        </View>
+                    )}
+
+                    {/* Original */}
+                    <Text style={{ fontSize: 13, fontWeight: '700', color: '#888', textTransform: 'uppercase', marginBottom: 8 }}>Original</Text>
+                    <View style={{ backgroundColor: '#FFF5F5', borderRadius: 12, padding: 14, marginBottom: 16, borderWidth: 1.5, borderColor: getRiskColor(origScore) + '60' }}>
+                        <Text style={{ fontSize: 15, fontWeight: '700', color: '#111', marginBottom: 6 }}>{originalLocation?.name}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                            <View style={{ flex: 1, height: 6, backgroundColor: '#EEE', borderRadius: 3, overflow: 'hidden' }}>
+                                <View style={{ height: '100%', width: `${origScore * 100}%`, backgroundColor: getRiskColor(origScore), borderRadius: 3 }} />
+                            </View>
+                            <Text style={{ fontSize: 13, fontWeight: '700', color: getRiskColor(origScore) }}>
+                                {getRiskLabel(origScore)} · {(origScore * 100).toFixed(0)}%
+                            </Text>
+                        </View>
+                    </View>
+
+                    {/* Alternatives */}
+                    <Text style={{ fontSize: 13, fontWeight: '700', color: '#888', textTransform: 'uppercase', marginBottom: 8 }}>
+                        Alternatives ({altResults.alternatives.length})
+                    </Text>
+
+                    {altResults.alternatives.length === 0 ? (
+                        <View style={{ backgroundColor: '#FFF', borderRadius: 12, padding: 24, alignItems: 'center', borderWidth: 1, borderColor: '#EEE' }}>
+                            <Ionicons name="location-outline" size={48} color="#CCC" />
+                            <Text style={{ marginTop: 10, fontSize: 15, fontWeight: '600', color: '#444', textAlign: 'center' }}>
+                                No safer alternatives found within {altResults.localRadius}km
+                            </Text>
+                            <Text style={{ marginTop: 4, fontSize: 13, color: '#888', textAlign: 'center' }}>
+                                Consider postponing or choosing a different region.
+                            </Text>
+                        </View>
+                    ) : (
+                        altResults.alternatives.map((alt, idx) => {
+                            const improvement = origScore - alt.riskScore;
+                            const distKm = parseFloat(alt._distanceKm || 0).toFixed(1);
+                            const isNearby = parseFloat(alt._distanceKm || 0) <= (altResults.localRadius || 20);
+                            return (
+                                <View key={alt.attraction_id || idx} style={{ backgroundColor: '#FFF', borderRadius: 12, padding: 14, marginBottom: 12, borderWidth: 1.5, borderColor: getRiskColor(alt.riskScore) + '40', elevation: 2 }}>
+                                    <View style={{ position: 'absolute', top: 10, right: 10, backgroundColor: '#1565C0', borderRadius: 12, width: 26, height: 26, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Text style={{ color: '#FFF', fontSize: 11, fontWeight: '700' }}>#{idx + 1}</Text>
+                                    </View>
+
+                                    <Text style={{ fontSize: 15, fontWeight: '700', color: '#111', marginBottom: 4, paddingRight: 32 }}>{alt.name}</Text>
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                                        <Text style={{ fontSize: 12, color: '#888' }}>{alt.category}</Text>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: isNearby ? '#E8F5E9' : '#FFF8E1', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 8 }}>
+                                            <Ionicons name="navigate-outline" size={10} color={isNearby ? '#388E3C' : '#F9A825'} />
+                                            <Text style={{ fontSize: 10, fontWeight: '700', color: isNearby ? '#388E3C' : '#F9A825' }}>
+                                                {distKm} km{!isNearby ? ' (outside area)' : ''}
+                                            </Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                                        <View style={{ flex: 1, height: 6, backgroundColor: '#EEE', borderRadius: 3, overflow: 'hidden' }}>
+                                            <View style={{ height: '100%', width: `${alt.riskScore * 100}%`, backgroundColor: getRiskColor(alt.riskScore), borderRadius: 3 }} />
+                                        </View>
+                                        <Text style={{ fontSize: 13, fontWeight: '700', color: getRiskColor(alt.riskScore) }}>
+                                            {getRiskLabel(alt.riskScore)} · {(alt.riskScore * 100).toFixed(0)}%
+                                        </Text>
+                                    </View>
+
+                                    {improvement > 0 && (
+                                        <Text style={{ fontSize: 12, color: '#388E3C', fontWeight: '700', marginBottom: 8 }}>
+                                            -{(improvement * 100).toFixed(0)}% safer than original
+                                        </Text>
+                                    )}
+
+                                    <View style={{ flexDirection: 'row', gap: 8 }}>
+                                        <View style={{ flex: 1, backgroundColor: '#F5F5F5', borderRadius: 8, padding: 8, alignItems: 'center' }}>
+                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#222' }}>{alt.avg_duration_hours || '—'}h</Text>
+                                            <Text style={{ fontSize: 10, color: '#888', marginTop: 2 }}>Duration</Text>
+                                        </View>
+                                        <View style={{ flex: 1, backgroundColor: '#F5F5F5', borderRadius: 8, padding: 8, alignItems: 'center' }}>
+                                            <Text style={{ fontSize: 11, fontWeight: '700', color: '#222' }}>LKR {Number(alt.avg_cost || 0).toLocaleString()}</Text>
+                                            <Text style={{ fontSize: 10, color: '#888', marginTop: 2 }}>Entry cost</Text>
+                                        </View>
+                                        <View style={{ flex: 1, backgroundColor: '#E8F5E9', borderRadius: 8, padding: 8, alignItems: 'center' }}>
+                                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#388E3C' }}>{parseFloat(alt.safety_rating || 0).toFixed(1)}</Text>
+                                            <Text style={{ fontSize: 10, color: '#888', marginTop: 2 }}>Safety</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            );
+                        })
+                    )}
+                </>
+            )}
+        </ScrollView>
+    );
+}
 
 export default function RiskCheckerScreen() {
     const router = useRouter();
@@ -33,6 +191,9 @@ export default function RiskCheckerScreen() {
     const [selectedItinerary, setSelectedItinerary] = useState(null);
     const [riskData, setRiskData] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const [showAlternatives, setShowAlternatives] = useState(false);
+    const [altLoading, setAltLoading] = useState(false);
+    const [altResults, setAltResults] = useState(null);
 
     useFocusEffect(
         useCallback(() => {
@@ -136,6 +297,141 @@ export default function RiskCheckerScreen() {
         if (score < 0.3) return 'LOW';
         if (score < 0.6) return 'MEDIUM';
         return 'HIGH';
+    };
+
+
+    // ── Safer Alternatives helpers ───────────────────────────────────────────
+    const _haversineKm = (lat1, lon1, lat2, lon2) => {
+        const R = 6371;
+        const dLat = ((lat2 - lat1) * Math.PI) / 180;
+        const dLon = ((lon2 - lon1) * Math.PI) / 180;
+        const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLon / 2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    };
+
+    const _isWeatherRisky = (weather) => {
+        if (!weather) return false;
+        const main = (weather.weather_main || '').toLowerCase();
+        const rain = parseFloat(weather.rainfall_mm || 0);
+        const wind = parseFloat(weather.wind_speed || 0);
+        return rain > 2 || wind > 10 || main.includes('rain') || main.includes('thunder') || main.includes('storm');
+    };
+
+    const _weatherReason = (weather) => {
+        if (!weather) return null;
+        const rain = parseFloat(weather.rainfall_mm || 0);
+        const wind = parseFloat(weather.wind_speed || 0);
+        const main = weather.weather_main || '';
+        if (main.toLowerCase().includes('thunder')) return `Thunderstorm (${rain.toFixed(1)}mm)`;
+        if (rain > 5) return `Heavy rain (${rain.toFixed(1)}mm/h)`;
+        if (rain > 2) return `Rain (${rain.toFixed(1)}mm/h)`;
+        if (wind > 10) return `Strong winds (${wind.toFixed(0)} m/s)`;
+        return main || 'Adverse weather';
+    };
+
+    const _csvIsOutdoor = (a) => {
+        const v = a.outdoor;
+        if (v === undefined || v === null) return null;
+        if (typeof v === 'boolean') return v;
+        const s = String(v).toLowerCase();
+        return s === 'true' ? true : s === 'false' ? false : null;
+    };
+
+    const handleFindAlternatives = async () => {
+        const location = selectedLocation;
+        if (!location) return;
+        setShowAlternatives(true);
+        setAltLoading(true);
+        setAltResults(null);
+        try {
+            const originalRisk = parseFloat(location.risk_score ?? location.riskScore ?? 0);
+            const origLat = parseFloat(location.lat ?? location.latitude ?? 0);
+            const origLon = parseFloat(location.lon ?? location.longitude ?? 0);
+
+            const weather = location.weather || location._weather || null;
+            const weatherRisky = _isWeatherRisky(weather);
+            const origIsOutdoor = _csvIsOutdoor(location);
+            const wantIndoor = weatherRisky && origIsOutdoor === true;
+            const applyVenueFilter = weatherRisky && origIsOutdoor !== null;
+
+            const allAttractions = await loadAttractions();
+
+            const withDist = allAttractions
+                .filter((a) => a.name !== location.name)
+                .map((a) => ({
+                    ...a,
+                    _distanceKm: _haversineKm(origLat, origLon, parseFloat(a.latitude), parseFloat(a.longitude)),
+                }));
+
+            const LOCAL_RADIUS = 20;
+            let pool = withDist.filter((a) => a._distanceKm <= LOCAL_RADIUS);
+            let expandedSearch = false;
+
+            // Fewer than 3 nearby → expand island-wide
+            if (pool.length < 3) {
+                pool = withDist.sort((a, b) => a._distanceKm - b._distanceKm);
+                expandedSearch = true;
+            }
+
+            // Venue filter — only when weather is risky and outdoor status is known
+            let venueFilterApplied = false;
+            if (applyVenueFilter && !expandedSearch) {
+                const filtered = pool.filter((a) =>
+                    wantIndoor ? _csvIsOutdoor(a) === false : _csvIsOutdoor(a) === true
+                );
+                if (filtered.length >= 2) {
+                    pool = filtered;
+                    venueFilterApplied = true;
+                }
+            }
+
+            // Top 8 by safety_rating → run through ML
+            const candidates = pool
+                .sort((a, b) => parseFloat(b.safety_rating || 0) - parseFloat(a.safety_rating || 0))
+                .slice(0, 8);
+
+            let scoredAlts = [];
+            try {
+                const locs = candidates.map((a) => ({
+                    lat: parseFloat(a.latitude),
+                    lon: parseFloat(a.longitude),
+                    name: a.name,
+                    type: 'attraction',
+                }));
+                const result = await predictRisk(locs);
+                const preds = result.predictions || [];
+                scoredAlts = candidates.map((a, i) => {
+                    const p = preds.find((x) => x.name === a.name) || preds[i] || {};
+                    return { ...a, riskScore: parseFloat(p.risk_score ?? p.riskScore ?? 0) };
+                });
+            } catch (_) {
+                scoredAlts = candidates.map((a) => ({
+                    ...a,
+                    riskScore: Math.max(0, 1 - parseFloat(a.safety_rating || 0.8)),
+                }));
+            }
+
+            let safer = scoredAlts.filter((a) => a.riskScore < originalRisk);
+            if (safer.length === 0) safer = scoredAlts;
+            const top3 = safer.sort((a, b) => a.riskScore - b.riskScore).slice(0, 3);
+
+            setAltResults({
+                alternatives: top3,
+                originalRisk,
+                expandedSearch,
+                localRadius: LOCAL_RADIUS,
+                weatherRisky,
+                wantIndoor,
+                venueFilterApplied,
+                weatherReason: weatherRisky ? _weatherReason(weather) : null,
+            });
+        } catch (err) {
+            setAltResults({ error: err.message, alternatives: [] });
+        } finally {
+            setAltLoading(false);
+        }
     };
 
     if (!riskData) {
@@ -281,7 +577,7 @@ export default function RiskCheckerScreen() {
                             />
                             <ConditionalMarker
                                 coordinate={{ latitude: lat, longitude: lon }}
-                                onPress={() => setSelectedLocation(loc)}
+                                onPress={() => { setSelectedLocation(loc); setShowAlternatives(false); setAltResults(null); }}
                             >
                                 <View style={[styles.mapMarker, { backgroundColor: getRiskColor(score) }]}>
                                     <Text style={styles.mapMarkerText}>{i + 1}</Text>
@@ -299,261 +595,265 @@ export default function RiskCheckerScreen() {
                 const incidents = selectedLocation.incidents || selectedLocation._incidents || null;
                 return (
                     <View style={styles.detailsPanel}>
-                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.detailsPanelContent}>
-                            <TouchableOpacity style={styles.closeDetailsButton} onPress={() => setSelectedLocation(null)}>
-                                <Ionicons name="close" size={20} color={Colors.text} />
-                            </TouchableOpacity>
+                        {showAlternatives ? (
+                            <AltPanel
+                                altResults={altResults}
+                                altLoading={altLoading}
+                                originalLocation={selectedLocation}
+                                onBack={() => setShowAlternatives(false)}
+                                onClose={() => { setSelectedLocation(null); setShowAlternatives(false); setAltResults(null); }}
+                                getRiskColor={getRiskColor}
+                                getRiskLabel={getRiskLabel}
+                            />
+                        ) : (
+                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.detailsPanelContent}>
+                                <TouchableOpacity style={styles.closeDetailsButton} onPress={() => { setSelectedLocation(null); setShowAlternatives(false); setAltResults(null); }}>
+                                    <Ionicons name="close" size={20} color={Colors.text} />
+                                </TouchableOpacity>
 
-                            <Text style={styles.detailsLocationName}>{selectedLocation.name}</Text>
+                                <Text style={styles.detailsLocationName}>{selectedLocation.name}</Text>
 
-                            <View style={styles.riskGaugeContainer}>
-                                <View style={styles.riskGauge}>
-                                    <View style={[styles.riskGaugeFill, { width: `${score * 100}%`, backgroundColor: getRiskColor(score) }]} />
-                                </View>
-                                <Text style={[styles.riskCategoryText, { color: getRiskColor(score) }]}>
-                                    {getRiskLabel(score)} RISK — {(score * 100).toFixed(0)}%
-                                </Text>
-                            </View>
-
-                            {/* ── Conditions Breakdown ── */}
-                            <View style={styles.breakdownSection}>
-                                <Text style={styles.breakdownTitle}>Conditions</Text>
-
-                                {/* Weather */}
-                                {weather.temperature !== undefined && (
-                                    <View style={styles.breakdownCard}>
-                                        <View style={styles.breakdownItem}>
-                                            <View style={styles.breakdownHeader}>
-                                                <Ionicons name="rainy" size={18} color="#1565C0" />
-                                                <Text style={styles.breakdownLabel}>Weather</Text>
-                                            </View>
-                                            <View style={[styles.sourcePill, { backgroundColor: '#E3F2FD' }]}>
-                                                <Text style={[styles.sourcePillText, { color: '#1565C0' }]}>
-                                                    {weather.source === 'openweathermap' ? 'Live' : 'Estimated'}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.metricsGrid}>
-                                            <View style={styles.metricCell}>
-                                                <Text style={styles.metricValue}>{weather.temperature?.toFixed(1)}°C</Text>
-                                                <Text style={styles.metricLabel}>Temp</Text>
-                                            </View>
-                                            <View style={styles.metricCell}>
-                                                <Text style={styles.metricValue}>{weather.rainfall_mm?.toFixed(1)}</Text>
-                                                <Text style={styles.metricLabel}>Rain mm</Text>
-                                            </View>
-                                            <View style={styles.metricCell}>
-                                                <Text style={styles.metricValue}>{weather.wind_speed?.toFixed(1)}</Text>
-                                                <Text style={styles.metricLabel}>Wind m/s</Text>
-                                            </View>
-                                            <View style={styles.metricCell}>
-                                                <Text style={styles.metricValue}>{weather.humidity ?? '—'}%</Text>
-                                                <Text style={styles.metricLabel}>Humidity</Text>
-                                            </View>
-                                        </View>
-                                        <Text style={[styles.breakdownDetailText, { textTransform: 'capitalize', marginTop: 4 }]}>
-                                            {weather.weather_description}
-                                            {weather.visibility_km ? ` · Visibility ${weather.visibility_km} km` : ''}
-                                        </Text>
+                                <View style={styles.riskGaugeContainer}>
+                                    <View style={styles.riskGauge}>
+                                        <View style={[styles.riskGaugeFill, { width: `${score * 100}%`, backgroundColor: getRiskColor(score) }]} />
                                     </View>
-                                )}
+                                    <Text style={[styles.riskCategoryText, { color: getRiskColor(score) }]}>
+                                        {getRiskLabel(score)} RISK — {(score * 100).toFixed(0)}%
+                                    </Text>
+                                </View>
 
-                                {/* Traffic */}
-                                {traffic && traffic.traffic_congestion_level !== undefined && (() => {
-                                    const rawCongestion = traffic.traffic_congestion_level; // 0-1 fraction
-                                    const pct = Math.round(rawCongestion * 100);
-                                    const color = traffic.congestion_color || (
-                                        rawCongestion < 0.2 ? '#4CAF50' :
-                                            rawCongestion < 0.45 ? '#8BC34A' :
-                                                rawCongestion < 0.65 ? '#FFC107' :
-                                                    rawCongestion < 0.80 ? '#FF9800' : '#F44336'
-                                    );
-                                    const label = traffic.congestion_label || (
-                                        rawCongestion < 0.2 ? 'Free flow' :
-                                            rawCongestion < 0.45 ? 'Light' :
-                                                rawCongestion < 0.65 ? 'Moderate' :
-                                                    rawCongestion < 0.80 ? 'Heavy' : 'Severe'
-                                    );
-                                    return (
+                                {/* ── Conditions Breakdown ── */}
+                                <View style={styles.breakdownSection}>
+                                    <Text style={styles.breakdownTitle}>Conditions</Text>
+
+                                    {/* Weather */}
+                                    {weather.temperature !== undefined && (
                                         <View style={styles.breakdownCard}>
                                             <View style={styles.breakdownItem}>
                                                 <View style={styles.breakdownHeader}>
-                                                    <Ionicons name="car" size={18} color={color} />
-                                                    <Text style={styles.breakdownLabel}>Traffic Now</Text>
+                                                    <Ionicons name="rainy" size={18} color="#1565C0" />
+                                                    <Text style={styles.breakdownLabel}>Weather</Text>
                                                 </View>
-                                                <View style={[styles.sourcePill, { backgroundColor: color + '22' }]}>
-                                                    <Text style={[styles.sourcePillText, { color }]}>
-                                                        {traffic.source === 'here_api' ? 'HERE Live' :
-                                                            traffic.source === 'tomtom_api' ? 'TomTom Live' : 'Simulated'}
+                                                <View style={[styles.sourcePill, { backgroundColor: '#E3F2FD' }]}>
+                                                    <Text style={[styles.sourcePillText, { color: '#1565C0' }]}>
+                                                        {weather.source === 'openweathermap' ? 'Live' : 'Estimated'}
                                                     </Text>
                                                 </View>
-                                            </View>
-                                            <View style={styles.congestionBarWrap}>
-                                                <View style={styles.congestionBarBg}>
-                                                    <View style={[styles.congestionBarFill, { width: `${pct}%`, backgroundColor: color }]} />
-                                                </View>
-                                                <Text style={[styles.congestionPct, { color }]}>{label} · {pct}%</Text>
                                             </View>
                                             <View style={styles.metricsGrid}>
                                                 <View style={styles.metricCell}>
-                                                    <Text style={[styles.metricValue, { color }]}>{traffic.average_speed ?? '—'}</Text>
-                                                    <Text style={styles.metricLabel}>km/h</Text>
+                                                    <Text style={styles.metricValue}>{weather.temperature?.toFixed(1)}°C</Text>
+                                                    <Text style={styles.metricLabel}>Temp</Text>
                                                 </View>
                                                 <View style={styles.metricCell}>
-                                                    <Text style={styles.metricValue}>{traffic.traffic_volume ?? '—'}</Text>
-                                                    <Text style={styles.metricLabel}>Vol/hr</Text>
+                                                    <Text style={styles.metricValue}>{weather.rainfall_mm?.toFixed(1)}</Text>
+                                                    <Text style={styles.metricLabel}>Rain mm</Text>
                                                 </View>
                                                 <View style={styles.metricCell}>
-                                                    <Text style={styles.metricValue}>{traffic.free_flow_speed ?? '—'}</Text>
-                                                    <Text style={styles.metricLabel}>Free flow</Text>
+                                                    <Text style={styles.metricValue}>{weather.wind_speed?.toFixed(1)}</Text>
+                                                    <Text style={styles.metricLabel}>Wind m/s</Text>
                                                 </View>
                                                 <View style={styles.metricCell}>
-                                                    <Text style={[styles.metricValue, { color: traffic.is_rush_hour ? Colors.danger : Colors.success, fontSize: 11 }]}>
-                                                        {traffic.is_rush_hour ? 'Rush hour' : 'Off-peak'}
-                                                    </Text>
-                                                    <Text style={styles.metricLabel}>Period</Text>
+                                                    <Text style={styles.metricValue}>{weather.humidity ?? '—'}%</Text>
+                                                    <Text style={styles.metricLabel}>Humidity</Text>
                                                 </View>
                                             </View>
-                                            {traffic.nearest_city && (
-                                                <Text style={[styles.breakdownDetailText, { marginTop: 4 }]}>
-                                                    {traffic.distance_to_city_km?.toFixed(1)} km from {traffic.nearest_city}
-                                                    {traffic.is_holiday ? ' · Public holiday' : traffic.is_weekend ? ' · Weekend' : ''}
-                                                </Text>
-                                            )}
+                                            <Text style={[styles.breakdownDetailText, { textTransform: 'capitalize', marginTop: 4 }]}>
+                                                {weather.weather_description}
+                                                {weather.visibility_km ? ` · Visibility ${weather.visibility_km} km` : ''}
+                                            </Text>
                                         </View>
-                                    );
-                                })()}
+                                    )}
 
-                                {/* Incidents */}
-                                {incidents && (
+                                    {/* Traffic */}
+                                    {traffic && traffic.traffic_congestion_level !== undefined && (() => {
+                                        const rawCongestion = traffic.traffic_congestion_level; // 0-1 fraction
+                                        const pct = Math.round(rawCongestion * 100);
+                                        const color = traffic.congestion_color || (
+                                            rawCongestion < 0.2 ? '#4CAF50' :
+                                                rawCongestion < 0.45 ? '#8BC34A' :
+                                                    rawCongestion < 0.65 ? '#FFC107' :
+                                                        rawCongestion < 0.80 ? '#FF9800' : '#F44336'
+                                        );
+                                        const label = traffic.congestion_label || (
+                                            rawCongestion < 0.2 ? 'Free flow' :
+                                                rawCongestion < 0.45 ? 'Light' :
+                                                    rawCongestion < 0.65 ? 'Moderate' :
+                                                        rawCongestion < 0.80 ? 'Heavy' : 'Severe'
+                                        );
+                                        return (
+                                            <View style={styles.breakdownCard}>
+                                                <View style={styles.breakdownItem}>
+                                                    <View style={styles.breakdownHeader}>
+                                                        <Ionicons name="car" size={18} color={color} />
+                                                        <Text style={styles.breakdownLabel}>Traffic Now</Text>
+                                                    </View>
+                                                    <View style={[styles.sourcePill, { backgroundColor: color + '22' }]}>
+                                                        <Text style={[styles.sourcePillText, { color }]}>
+                                                            {traffic.source === 'here_api' ? 'HERE Live' :
+                                                                traffic.source === 'tomtom_api' ? 'TomTom Live' : 'Simulated'}
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View style={styles.congestionBarWrap}>
+                                                    <View style={styles.congestionBarBg}>
+                                                        <View style={[styles.congestionBarFill, { width: `${pct}%`, backgroundColor: color }]} />
+                                                    </View>
+                                                    <Text style={[styles.congestionPct, { color }]}>{label} · {pct}%</Text>
+                                                </View>
+                                                <View style={styles.metricsGrid}>
+                                                    <View style={styles.metricCell}>
+                                                        <Text style={[styles.metricValue, { color }]}>{traffic.average_speed ?? '—'}</Text>
+                                                        <Text style={styles.metricLabel}>km/h</Text>
+                                                    </View>
+                                                    <View style={styles.metricCell}>
+                                                        <Text style={styles.metricValue}>{traffic.traffic_volume ?? '—'}</Text>
+                                                        <Text style={styles.metricLabel}>Vol/hr</Text>
+                                                    </View>
+                                                    <View style={styles.metricCell}>
+                                                        <Text style={styles.metricValue}>{traffic.free_flow_speed ?? '—'}</Text>
+                                                        <Text style={styles.metricLabel}>Free flow</Text>
+                                                    </View>
+                                                    <View style={styles.metricCell}>
+                                                        <Text style={[styles.metricValue, { color: traffic.is_rush_hour ? Colors.danger : Colors.success, fontSize: 11 }]}>
+                                                            {traffic.is_rush_hour ? 'Rush hour' : 'Off-peak'}
+                                                        </Text>
+                                                        <Text style={styles.metricLabel}>Period</Text>
+                                                    </View>
+                                                </View>
+                                                {traffic.nearest_city && (
+                                                    <Text style={[styles.breakdownDetailText, { marginTop: 4 }]}>
+                                                        {traffic.distance_to_city_km?.toFixed(1)} km from {traffic.nearest_city}
+                                                        {traffic.is_holiday ? ' · Public holiday' : traffic.is_weekend ? ' · Weekend' : ''}
+                                                    </Text>
+                                                )}
+                                            </View>
+                                        );
+                                    })()}
+
+                                    {/* Incidents */}
+                                    {incidents && (
+                                        <View style={styles.breakdownCard}>
+                                            <View style={styles.breakdownItem}>
+                                                <View style={styles.breakdownHeader}>
+                                                    <Ionicons name="warning" size={18} color={
+                                                        (incidents.num_recent_accidents + incidents.num_recent_incidents) > 2
+                                                            ? Colors.danger : Colors.success
+                                                    } />
+                                                    <Text style={styles.breakdownLabel}>Recent Incidents</Text>
+                                                </View>
+                                            </View>
+                                            <View style={styles.metricsGrid}>
+                                                <View style={styles.metricCell}>
+                                                    <Text style={[styles.metricValue, { color: incidents.num_recent_accidents > 0 ? Colors.warning : Colors.success }]}>
+                                                        {incidents.num_recent_accidents}
+                                                    </Text>
+                                                    <Text style={styles.metricLabel}>Accidents</Text>
+                                                </View>
+                                                <View style={styles.metricCell}>
+                                                    <Text style={[styles.metricValue, { color: incidents.num_recent_incidents > 0 ? Colors.warning : Colors.success }]}>
+                                                        {incidents.num_recent_incidents}
+                                                    </Text>
+                                                    <Text style={styles.metricLabel}>Incidents</Text>
+                                                </View>
+                                            </View>
+                                            <Text style={[styles.breakdownDetailText, { marginTop: 4, color: '#666' }]}>
+                                                {incidents.accident_context || 'Signal-based estimate'}
+                                            </Text>
+                                        </View>
+                                    )}
+
+                                    {/* Risk Score */}
                                     <View style={styles.breakdownCard}>
                                         <View style={styles.breakdownItem}>
                                             <View style={styles.breakdownHeader}>
-                                                <Ionicons name="warning" size={18} color={
-                                                    (incidents.num_recent_accidents + incidents.num_recent_incidents) > 2
-                                                        ? Colors.danger : Colors.success
-                                                } />
-                                                <Text style={styles.breakdownLabel}>Recent Incidents</Text>
+                                                <Ionicons name="shield-checkmark" size={18} color={getRiskColor(score)} />
+                                                <Text style={styles.breakdownLabel}>ML Risk Score</Text>
                                             </View>
+                                            <Text style={[styles.breakdownValue, { color: getRiskColor(score) }]}>
+                                                {(score * 100).toFixed(0)}%
+                                            </Text>
                                         </View>
-                                        <View style={styles.metricsGrid}>
-                                            <View style={styles.metricCell}>
-                                                <Text style={[styles.metricValue, { color: incidents.num_recent_accidents > 0 ? Colors.warning : Colors.success }]}>
-                                                    {incidents.num_recent_accidents}
-                                                </Text>
-                                                <Text style={styles.metricLabel}>Accidents</Text>
+                                        {selectedLocation.risk_category && (
+                                            <Text style={styles.breakdownDetailText}>
+                                                Category: {selectedLocation.risk_category}
+                                            </Text>
+                                        )}
+                                        {selectedLocation.risk_factors?.length > 0 && (
+                                            <View style={{ marginTop: 6 }}>
+                                                {selectedLocation.risk_factors.map((f, fi) => (
+                                                    <View key={fi} style={styles.riskFactorRow}>
+                                                        <Ionicons name="alert-circle" size={13} color={Colors.warning} />
+                                                        <Text style={styles.riskFactorText}>{f}</Text>
+                                                    </View>
+                                                ))}
                                             </View>
-                                            <View style={styles.metricCell}>
-                                                <Text style={[styles.metricValue, { color: incidents.num_recent_incidents > 0 ? Colors.warning : Colors.success }]}>
-                                                    {incidents.num_recent_incidents}
-                                                </Text>
-                                                <Text style={styles.metricLabel}>Incidents</Text>
-                                            </View>
+                                        )}
+                                        {selectedLocation.recommendations?.length > 0 && (
+                                            <Text style={[styles.breakdownDetailText, { marginTop: 6, fontStyle: 'italic' }]}>
+                                                {selectedLocation.recommendations[0]}
+                                            </Text>
+                                        )}
+                                    </View>
+                                </View>
+
+                                {/* News Risk Incidents */}
+                                {selectedLocation.news_incidents && selectedLocation.news_incidents.length > 0 && (
+                                    <View style={styles.newsBox}>
+                                        <View style={styles.newsBoxHeader}>
+                                            <Ionicons name="newspaper-outline" size={16} color={
+                                                selectedLocation.news_risk_level >= 3 ? Colors.danger :
+                                                    selectedLocation.news_risk_level >= 2 ? Colors.warning : Colors.accent
+                                            } />
+                                            <Text style={[styles.newsBoxTitle, {
+                                                color: selectedLocation.news_risk_level >= 3 ? Colors.danger :
+                                                    selectedLocation.news_risk_level >= 2 ? Colors.warning : Colors.accent
+                                            }]}>
+                                                Live News · {selectedLocation.news_risk_label} signal
+                                                {selectedLocation.news_boosted ? ' · Score adjusted' : ''}
+                                            </Text>
                                         </View>
-                                        <Text style={[styles.breakdownDetailText, { marginTop: 4, color: '#666' }]}>
-                                            {incidents.accident_context || 'Signal-based estimate'}
-                                        </Text>
+                                        {selectedLocation.news_incidents.map((inc, ni) => (
+                                            <View key={ni} style={styles.newsIncident}>
+                                                <View style={[styles.newsIncidentDot, {
+                                                    backgroundColor: inc.severity === 'high' ? Colors.danger :
+                                                        inc.severity === 'medium' ? Colors.warning : Colors.accent
+                                                }]} />
+                                                <View style={{ flex: 1 }}>
+                                                    <Text style={styles.newsIncidentTitle} numberOfLines={2}>{inc.title}</Text>
+                                                    <View style={styles.newsKeywords}>
+                                                        {(inc.keywords || []).map((kw, ki) => (
+                                                            <View key={ki} style={styles.newsKeywordPill}>
+                                                                <Text style={styles.newsKeywordText}>{kw}</Text>
+                                                            </View>
+                                                        ))}
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        ))}
                                     </View>
                                 )}
 
-                                {/* Risk Score */}
-                                <View style={styles.breakdownCard}>
-                                    <View style={styles.breakdownItem}>
-                                        <View style={styles.breakdownHeader}>
-                                            <Ionicons name="shield-checkmark" size={18} color={getRiskColor(score)} />
-                                            <Text style={styles.breakdownLabel}>ML Risk Score</Text>
+                                {/* No news signal */}
+                                {(!selectedLocation.news_incidents || selectedLocation.news_incidents.length === 0) && selectedLocation.district && (
+                                    <View style={[styles.newsBox, { backgroundColor: '#F1F8E9' }]}>
+                                        <View style={styles.newsBoxHeader}>
+                                            <Ionicons name="checkmark-circle-outline" size={16} color={Colors.success} />
+                                            <Text style={[styles.newsBoxTitle, { color: Colors.success }]}>No incidents in {selectedLocation.district}</Text>
                                         </View>
-                                        <Text style={[styles.breakdownValue, { color: getRiskColor(score) }]}>
-                                            {(score * 100).toFixed(0)}%
-                                        </Text>
+                                        <Text style={styles.newsBoxSub}>No recent news alerts for this area.</Text>
                                     </View>
-                                    {selectedLocation.risk_category && (
-                                        <Text style={styles.breakdownDetailText}>
-                                            Category: {selectedLocation.risk_category}
-                                        </Text>
-                                    )}
-                                    {selectedLocation.risk_factors?.length > 0 && (
-                                        <View style={{ marginTop: 6 }}>
-                                            {selectedLocation.risk_factors.map((f, fi) => (
-                                                <View key={fi} style={styles.riskFactorRow}>
-                                                    <Ionicons name="alert-circle" size={13} color={Colors.warning} />
-                                                    <Text style={styles.riskFactorText}>{f}</Text>
-                                                </View>
-                                            ))}
-                                        </View>
-                                    )}
-                                    {selectedLocation.recommendations?.length > 0 && (
-                                        <Text style={[styles.breakdownDetailText, { marginTop: 6, fontStyle: 'italic' }]}>
-                                            {selectedLocation.recommendations[0]}
-                                        </Text>
-                                    )}
-                                </View>
-                            </View>
+                                )}
 
-                            {/* News Risk Incidents */}
-                            {selectedLocation.news_incidents && selectedLocation.news_incidents.length > 0 && (
-                                <View style={styles.newsBox}>
-                                    <View style={styles.newsBoxHeader}>
-                                        <Ionicons name="newspaper-outline" size={16} color={
-                                            selectedLocation.news_risk_level >= 3 ? Colors.danger :
-                                                selectedLocation.news_risk_level >= 2 ? Colors.warning : Colors.accent
-                                        } />
-                                        <Text style={[styles.newsBoxTitle, {
-                                            color: selectedLocation.news_risk_level >= 3 ? Colors.danger :
-                                                selectedLocation.news_risk_level >= 2 ? Colors.warning : Colors.accent
-                                        }]}>
-                                            Live News · {selectedLocation.news_risk_label} signal
-                                            {selectedLocation.news_boosted ? ' · Score adjusted' : ''}
-                                        </Text>
-                                    </View>
-                                    {selectedLocation.news_incidents.map((inc, ni) => (
-                                        <View key={ni} style={styles.newsIncident}>
-                                            <View style={[styles.newsIncidentDot, {
-                                                backgroundColor: inc.severity === 'high' ? Colors.danger :
-                                                    inc.severity === 'medium' ? Colors.warning : Colors.accent
-                                            }]} />
-                                            <View style={{ flex: 1 }}>
-                                                <Text style={styles.newsIncidentTitle} numberOfLines={2}>{inc.title}</Text>
-                                                <View style={styles.newsKeywords}>
-                                                    {(inc.keywords || []).map((kw, ki) => (
-                                                        <View key={ki} style={styles.newsKeywordPill}>
-                                                            <Text style={styles.newsKeywordText}>{kw}</Text>
-                                                        </View>
-                                                    ))}
-                                                </View>
-                                            </View>
-                                        </View>
-                                    ))}
-                                </View>
-                            )}
-
-                            {/* No news signal */}
-                            {(!selectedLocation.news_incidents || selectedLocation.news_incidents.length === 0) && selectedLocation.district && (
-                                <View style={[styles.newsBox, { backgroundColor: '#F1F8E9' }]}>
-                                    <View style={styles.newsBoxHeader}>
-                                        <Ionicons name="checkmark-circle-outline" size={16} color={Colors.success} />
-                                        <Text style={[styles.newsBoxTitle, { color: Colors.success }]}>No incidents in {selectedLocation.district}</Text>
-                                    </View>
-                                    <Text style={styles.newsBoxSub}>No recent news alerts for this area.</Text>
-                                </View>
-                            )}
-
-                            <TouchableOpacity
-                                style={styles.alternativeButton}
-                                onPress={() =>
-                                    router.push({
-                                        pathname: '/(tourist)/risk-alternatives',
-                                        params: {
-                                            locationData: JSON.stringify(selectedLocation),
-                                            itineraryData: JSON.stringify(selectedItinerary),
-                                        },
-                                    })
-                                }
-                            >
-                                <Ionicons name="swap-horizontal" size={20} color={Colors.surface} />
-                                <Text style={styles.alternativeButtonText}>Find Safer Alternative</Text>
-                            </TouchableOpacity>
-                        </ScrollView>
+                                <TouchableOpacity
+                                    style={styles.alternativeButton}
+                                    onPress={handleFindAlternatives}
+                                >
+                                    <Ionicons name="swap-horizontal" size={20} color={Colors.surface} />
+                                    <Text style={styles.alternativeButtonText}>Find Safer Alternatives</Text>
+                                </TouchableOpacity>
+                            </ScrollView>
+                        )}
                     </View>
                 );
             })()}
