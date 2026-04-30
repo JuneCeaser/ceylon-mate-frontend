@@ -16,7 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 const { width } = Dimensions.get('window');
 
 // ⚠️ Your laptop IP — change if different`
-const AI_SERVER = 'http://192.168.8.100:5001';
+const AI_SERVER = 'http://192.168.8.101:5001';
 
 // ============================================================
 // ARTIFACT DATABASE
