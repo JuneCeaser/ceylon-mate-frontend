@@ -6,8 +6,8 @@ attraction_id,name,category,latitude,longitude,avg_duration_hours,avg_cost,outdo
 5,Negombo Beach,beach,7.2088,79.8358,3.0,1500,True,0.75,3,0.95,0.82,0.88
 6,Hikkaduwa Beach,beach,6.1408,80.1031,4.0,2200,True,0.83,1,0.88,0.78,0.85
 7,Tangalle Beach,beach,6.0242,80.7954,4.5,2000,True,0.78,1,0.8,0.6,0.87
-8,Uppuveli Beach,beach,8.607,81.2249,4.0,1800,True,0.72,2,0.82,0.55,0.8
-9,Sigiriya Rock Fortress,historical,7.957,80.7603,3.5,5500,True,0.95,3,0.6,0.85,0.9
+8,Uppuveli Beach,beach,8.6070,81.2249,4.0,1800,True,0.72,2,0.82,0.55,0.8
+9,Sigiriya Rock Fortress,historical,7.9570,80.7603,3.5,5500,True,0.95,3,0.6,0.85,0.9
 10,Galle Dutch Fort,historical,6.0265,80.2168,3.0,1000,True,0.92,3,0.88,0.8,0.92
 11,Polonnaruwa Ancient City,historical,7.9403,81.0188,4.5,4500,True,0.87,3,0.7,0.75,0.88
 12,Anuradhapura Sacred City,historical,8.3114,80.4037,5.0,4000,True,0.9,3,0.72,0.78,0.9
@@ -16,7 +16,7 @@ attraction_id,name,category,latitude,longitude,avg_duration_hours,avg_cost,outdo
 15,Temple of the Sacred Tooth Relic,temple,7.2935,80.6407,2.0,2000,False,0.93,3,0.85,0.88,0.95
 16,Kelaniya Raja Maha Vihara,temple,6.9553,79.9223,1.5,500,False,0.75,3,0.9,0.7,0.92
 17,Gangaramaya Temple,temple,6.9167,79.8561,1.5,500,False,0.78,3,0.92,0.75,0.9
-18,Mulkirigala Rock Temple,temple,6.1333,80.7333,2.0,1500,True,0.68,3,0.6,0.45,0.85
+18,Mulkirigala Rock Temple,temple,6.2667,80.7667,2.0,1500,True,0.68,3,0.6,0.45,0.85
 19,Yala National Park,national_park,6.3725,81.5075,6.0,8000,True,0.93,1,0.7,0.8,0.85
 20,Udawalawe National Park,national_park,6.4386,80.8819,5.0,7000,True,0.88,3,0.75,0.7,0.88
 21,Wilpattu National Park,national_park,8.4853,80.0319,6.0,7500,True,0.82,1,0.65,0.55,0.82
@@ -27,10 +27,10 @@ attraction_id,name,category,latitude,longitude,avg_duration_hours,avg_cost,outdo
 26,Nuwara Eliya,mountain,6.9497,80.7891,6.0,4000,True,0.92,1,0.85,0.8,0.9
 27,Horton Plains National Park,mountain,6.8103,80.7958,5.0,4500,True,0.87,1,0.68,0.7,0.85
 28,World's End,mountain,6.8186,80.8025,3.0,4500,True,0.89,1,0.65,0.78,0.83
-29,Ramboda Falls,waterfall,7.0333,80.7167,1.5,500,True,0.75,2,0.85,0.65,0.88
-30,Diyaluma Falls,waterfall,6.7667,81.0333,2.5,1000,True,0.8,2,0.7,0.6,0.82
-31,Devon Falls,waterfall,6.9667,80.6667,1.0,500,True,0.72,2,0.88,0.58,0.9
-32,St. Clair's Falls,waterfall,6.8583,80.7528,1.5,500,True,0.78,2,0.82,0.62,0.88
+29,Ramboda Falls,waterfall,7.0600,80.7028,1.5,500,True,0.75,2,0.85,0.65,0.88
+30,Diyaluma Falls,waterfall,6.7333,81.0389,2.5,1000,True,0.8,2,0.7,0.6,0.82
+31,Devon Falls,waterfall,6.9367,80.6533,1.0,500,True,0.72,2,0.88,0.58,0.9
+32,St. Clair's Falls,waterfall,6.9333,80.6333,1.5,500,True,0.78,2,0.82,0.62,0.88
 33,Kandy City,cultural,7.2906,80.6337,5.0,3500,True,0.91,3,0.9,0.85,0.92
 34,Peradeniya Botanical Gardens,cultural,7.2697,80.5967,3.0,2000,True,0.85,3,0.92,0.75,0.95
 35,Pinnawala Elephant Orphanage,wildlife,7.2981,80.3892,3.0,3500,True,0.87,3,0.85,0.82,0.9
@@ -38,86 +38,330 @@ attraction_id,name,category,latitude,longitude,avg_duration_hours,avg_cost,outdo
 37,Colombo City Tour,city,6.9271,79.8612,6.0,4000,True,0.82,3,0.95,0.88,0.9
 38,Galle Face Green,city,6.9271,79.8456,2.0,1000,True,0.75,3,0.95,0.8,0.88
 39,Lotus Tower,city,6.9271,79.8553,2.0,2500,False,0.68,3,0.9,0.7,0.92
-40,Nine Arch Bridge Ella,adventure,6.873,81.0606,2.0,500,True,0.9,3,0.75,0.85,0.85
+40,Nine Arch Bridge Ella,adventure,6.8775,81.0628,2.0,500,True,0.9,3,0.75,0.85,0.85
 41,Kithulgala White Water Rafting,adventure,6.9897,80.4181,4.0,6000,True,0.82,2,0.7,0.55,0.75
-42,Knuckles Mountain Range,adventure,7.45,80.7667,7.0,5000,True,0.8,1,0.55,0.5,0.78
-43,Trincomalee Beaches,wildlife,9.006518,79.940243,5.0,4976,False,0.71,3,0.62,0.8,0.87
-44,Batticaloa,mountain,8.438465,79.635388,4.7,7539,True,0.55,1,0.82,0.69,0.75
-45,Mannar Island,waterfall,7.035794,80.968447,2.1,2691,True,0.68,2,0.63,0.7,0.83
-46,Pigeon Island,historical,8.210417,79.611481,4.2,1778,False,0.57,1,0.94,0.77,0.81
-47,Ritigala Monastery,adventure,6.800486,80.078461,4.6,5074,True,0.84,3,0.92,0.55,0.88
-48,Mihintale,temple,7.558108,79.99906,4.1,734,False,0.84,2,0.74,0.82,0.9
-49,Aukana Buddha Statue,mountain,8.124732,80.750002,5.8,6834,True,0.81,3,0.89,0.59,0.81
-50,Buduruwagala,waterfall,7.055467,79.896641,1.6,3675,True,0.69,3,0.89,0.73,0.9
-51,Lipton's Seat,beach,8.263244,81.723122,4.4,7362,True,0.85,2,0.63,0.6,0.88
-52,Bambarakanda Falls,adventure,8.745464,81.030138,5.5,4041,True,0.59,2,0.9,0.74,0.8
-53,Ravana Falls,wildlife,6.057691,81.205591,2.0,3795,False,0.62,3,0.77,0.68,0.89
-54,Lovers Leap Falls,adventure,6.87224,80.484919,4.9,2215,True,0.58,3,0.84,0.8,0.87
-55,Kalpitiya,waterfall,6.311428,80.595683,2.5,3623,True,0.86,2,0.64,0.59,0.93
-56,Pasikuda Beach,beach,6.788947,80.525059,5.2,6955,True,0.55,3,0.75,0.54,0.77
-57,Nilaveli Beach,mountain,9.577348,80.275687,3.8,5772,True,0.68,1,0.69,0.55,0.89
-58,Jungle Beach,national_park,7.073425,80.183617,1.7,5071,True,0.73,2,0.61,0.59,0.88
-59,Matara,temple,7.970645,80.57468,4.0,4945,False,0.58,3,0.68,0.77,0.84
-60,Hambantota,temple,8.370766,80.785859,1.9,6764,False,0.66,2,0.84,0.79,0.82
-61,Kataragama Temple,historical,5.964693,80.729023,2.5,5338,False,0.61,1,0.74,0.66,0.92
-62,Belilena Cave,waterfall,6.342547,81.719265,5.4,2434,True,0.78,2,0.94,0.66,0.8
-63,Pidurangala Rock,beach,6.263101,81.653318,5.6,5248,True,0.67,3,0.85,0.79,0.92
-64,Bundala National Park,cultural,8.941515,81.040876,1.9,1712,False,0.86,2,0.6,0.49,0.88
-65,Kumana National Park,temple,6.527151,80.816961,4.6,5389,False,0.63,1,0.61,0.65,0.79
-66,Maduru Oya National Park,mountain,8.433568,81.538136,4.5,4762,True,0.58,3,0.82,0.55,0.87
-67,Gal Oya National Park,cultural,7.433081,81.640912,4.3,6461,False,0.73,3,0.77,0.53,0.89
-68,Tea Plantations Nuwara Eliya,national_park,8.130816,81.34453,1.7,7959,True,0.71,2,0.92,0.6,0.75
-69,Haputale,mountain,7.189926,80.826636,4.1,7852,True,0.58,1,0.73,0.79,0.81
-70,Bandarawela,temple,8.071525,81.746771,4.6,4775,False,0.58,3,0.95,0.51,0.85
-71,Badulla,temple,7.157948,81.536808,2.1,5816,False,0.74,2,0.88,0.77,0.92
-72,Mahiyangana,city,5.920221,81.006947,2.4,1032,False,0.69,2,0.91,0.59,0.83
-73,Ampara,temple,7.610049,81.112863,3.0,1662,False,0.89,2,0.81,0.46,0.76
-74,Kegalle,cultural,7.082736,80.788998,3.0,6709,False,0.65,1,0.76,0.79,0.79
-75,Ratnapura Gem Mines,national_park,8.385977,81.242619,5.9,4372,True,0.66,1,0.74,0.62,0.9
-76,Kitulgala Forest,city,5.998868,81.810356,5.3,5719,False,0.69,2,0.92,0.63,0.8
-77,Madu River Safari,cultural,8.686924,81.084474,2.8,7661,False,0.81,3,0.75,0.74,0.76
-78,Koggala Lake,city,7.288293,81.318831,1.6,1370,False,0.57,1,0.71,0.84,0.79
-79,Bentara River,city,8.877121,81.436591,3.1,3985,False,0.78,2,0.82,0.7,0.76
-80,Bolgoda Lake,city,8.340854,80.707527,5.4,5440,False,0.61,3,0.93,0.8,0.88
-81,Gregory Lake,historical,8.144349,80.431608,4.4,3936,False,0.74,1,0.82,0.78,0.88
-82,Victoria Park Nuwara Eliya,temple,6.051956,80.983809,3.0,5417,False,0.68,2,0.61,0.78,0.81
-83,Hakgala Botanical Garden,historical,8.602272,80.336008,5.7,793,False,0.7,1,0.7,0.52,0.9
-84,Yala Elephant Transit Home,national_park,9.76297,80.490282,3.2,6323,True,0.67,2,0.8,0.55,0.89
-85,Handunugoda Tea Estate,wildlife,8.842717,79.747497,5.6,4289,False,0.84,2,0.7,0.49,0.76
-86,Saman Villas,waterfall,9.203858,80.351772,5.8,5575,True,0.72,2,0.82,0.63,0.81
-87,Geoffrey Bawa House,waterfall,8.059442,80.010547,5.8,6359,True,0.59,1,0.77,0.47,0.86
-88,Independence Square,adventure,8.774439,80.810198,4.7,7764,True,0.79,2,0.82,0.49,0.77
-89,Viharamahadevi Park,mountain,6.183776,81.472464,4.7,1110,True,0.58,3,0.8,0.8,0.93
-90,Dehiwala Zoo,beach,9.594269,81.866403,4.9,3321,True,0.58,1,0.73,0.73,0.8
-91,Mount Lavinia Beach,national_park,6.33367,80.6823,1.6,4014,True,0.57,1,0.89,0.75,0.89
-92,Dutch Hospital Shopping,waterfall,7.361995,80.185709,5.4,2176,True,0.89,1,0.94,0.47,0.93
-93,Pettah Market,cultural,9.506109,81.705878,2.6,5715,False,0.58,3,0.82,0.73,0.84
-94,Red Mosque,adventure,8.618008,80.422084,4.8,7364,True,0.89,2,0.76,0.7,0.81
-95,Jami Ul Alfar Mosque,historical,7.708424,80.348045,4.1,1083,False,0.89,3,0.84,0.66,0.81
-96,St. Anthony's Church,historical,8.250849,80.150298,2.1,1071,False,0.88,3,0.85,0.7,0.83
-97,St. Mary's Church,mountain,9.31898,80.823811,2.2,3584,True,0.82,2,0.95,0.51,0.87
-98,Nallur Kovil,waterfall,9.6645,80.0203,5.3,4015,True,0.7,1,0.6,0.48,0.89
-99,Nagadeepa Temple,adventure,9.798899,81.891928,4.0,6267,True,0.88,2,0.73,0.55,0.79
-100,Thiruketheeswaram Kovil,beach,9.620799,80.954819,2.5,5537,True,0.77,3,0.64,0.72,0.85
-101,Koneshwaram Temple,cultural,9.142349,80.238665,5.2,7759,False,0.58,3,0.74,0.5,0.76
-102,Embekke Devalaya,adventure,8.319207,81.189791,2.5,1522,True,0.56,2,0.81,0.7,0.86
-103,Lankatilaka Temple,national_park,9.426219,80.335813,3.8,6377,True,0.69,3,0.78,0.73,0.91
-104,Gadaladeniya Temple,city,9.513692,80.681079,2.7,3943,False,0.89,1,0.72,0.53,0.87
-105,Aluvihare Rock Temple,national_park,7.497751,80.622504,4.1,3502,True,0.79,1,0.91,0.64,0.88
-106,Ridi Viharaya,temple,8.247548,80.037238,5.2,3088,False,0.67,2,0.63,0.5,0.84
-107,Alu Vihara,city,9.387447,79.808996,3.0,2911,False,0.58,3,0.82,0.48,0.92
-108,Kalutara Temple,beach,6.979823,81.434883,4.9,1883,True,0.62,3,0.92,0.54,0.9
-109,Kande Viharaya,mountain,8.710013,79.649619,2.2,1498,True,0.79,3,0.78,0.66,0.77
-110,Seema Malaka,city,7.281172,80.453193,2.0,6030,False,0.61,3,0.71,0.53,0.82
-111,Isurumuniya Temple,waterfall,9.373056,80.924622,4.6,6418,True,0.72,3,0.8,0.74,0.86
-112,Ruwanwelisaya,mountain,7.583472,79.806193,2.8,3223,True,0.78,2,0.69,0.65,0.82
-113,Thuparamaya,waterfall,6.825184,79.744278,2.2,2344,True,0.61,3,0.63,0.77,0.76
-114,Jetavanaramaya,waterfall,6.212912,80.758827,3.3,7867,True,0.59,2,0.8,0.82,0.75
-115,Abhayagiri Dagaba,cultural,6.905821,79.91013,4.5,7470,False,0.74,2,0.7,0.76,0.79
-116,Sri Maha Bodhi Tree,cultural,8.672715,79.978817,4.8,4473,False,0.8,2,0.7,0.68,0.78
-117,Tissawewa Lake,historical,7.150505,80.925319,3.2,3907,False,0.74,2,0.95,0.58,0.91
-118,Parakrama Samudra,beach,7.901166,80.974253,2.0,4048,True,0.76,3,0.72,0.82,0.92
-119,Kandy Lake,temple,6.384759,81.254082,5.7,1859,False,0.57,2,0.62,0.76,0.92
-120,Beira Lake,adventure,6.686347,79.892774,2.2,6609,True,0.78,2,0.92,0.58,0.87
-121,Dambulla Market,temple,9.084738,80.553924,3.2,3970,False,0.66,3,0.75,0.68,0.82
-122,Matale Spice Gardens,wildlife,7.974244,79.659886,2.5,4571,False,0.7,3,0.82,0.58,0.78
+42,Knuckles Mountain Range,adventure,7.4500,80.7667,7.0,5000,True,0.8,1,0.55,0.5,0.78
+43,Trincomalee,city,8.5874,81.2152,3.0,1500,True,0.78,2,0.8,0.65,0.82
+44,Batticaloa,city,7.7170,81.7000,3.0,1500,True,0.65,2,0.78,0.55,0.8
+45,Mannar Island,historical,8.9810,79.9044,4.0,1500,True,0.65,1,0.65,0.45,0.82
+46,Pigeon Island,national_park,8.7245,81.2061,4.0,5000,True,0.85,2,0.7,0.7,0.85
+47,Ritigala Strict Nature Reserve,historical,8.1189,80.6533,3.5,1000,True,0.7,3,0.6,0.4,0.85
+48,Mihintale,historical,8.3506,80.5142,2.5,500,True,0.82,3,0.78,0.65,0.9
+49,Aukana Buddha Statue,historical,8.0244,80.4864,1.5,500,True,0.72,3,0.75,0.5,0.88
+50,Buduruwagala Temple,temple,6.7783,81.2378,1.5,500,True,0.68,3,0.65,0.45,0.88
+51,Lipton's Seat,mountain,6.8253,80.9989,3.0,1000,True,0.85,1,0.55,0.65,0.85
+52,Bambarakanda Falls,waterfall,6.7689,80.8294,2.0,500,True,0.78,2,0.55,0.55,0.8
+53,Ravana Falls,waterfall,6.8390,81.0490,1.0,500,True,0.8,2,0.92,0.78,0.88
+54,Lovers Leap Falls,waterfall,6.9744,80.7886,1.5,500,True,0.62,2,0.7,0.55,0.82
+55,Kalpitiya,beach,8.2333,79.7667,5.0,4000,True,0.78,1,0.65,0.55,0.85
+56,Pasikuda Beach,beach,7.9272,81.5664,4.5,2500,True,0.75,2,0.78,0.6,0.85
+57,Nilaveli Beach,beach,8.6939,81.1869,4.0,2000,True,0.8,2,0.78,0.55,0.85
+58,Jungle Beach Unawatuna,beach,6.0072,80.2347,2.5,500,True,0.75,1,0.65,0.65,0.82
+59,Matara,city,5.9485,80.5353,3.0,1000,True,0.65,1,0.85,0.6,0.85
+60,Hambantota,city,6.1241,81.1185,2.0,1000,False,0.55,2,0.85,0.5,0.85
+61,Kataragama Temple,temple,6.4225,81.3347,2.5,500,False,0.85,3,0.78,0.8,0.92
+62,Belilena Cave,historical,6.9928,80.4117,2.0,500,True,0.55,2,0.55,0.35,0.78
+63,Pidurangala Rock,mountain,7.9700,80.7569,3.0,1000,True,0.85,3,0.65,0.75,0.82
+64,Bundala National Park,national_park,6.1928,81.2167,4.0,6000,True,0.78,2,0.72,0.55,0.85
+65,Kumana National Park,national_park,6.5667,81.7000,5.0,7000,True,0.65,2,0.55,0.4,0.78
+66,Maduru Oya National Park,national_park,7.6167,81.1833,4.0,5500,True,0.55,2,0.5,0.3,0.78
+67,Gal Oya National Park,national_park,7.2167,81.4833,4.5,6000,True,0.62,2,0.55,0.35,0.8
+68,Tea Plantations Nuwara Eliya,cultural,6.9700,80.7700,2.0,1000,True,0.85,1,0.85,0.75,0.92
+69,Haputale,mountain,6.7686,80.9608,4.0,1500,True,0.75,1,0.7,0.6,0.85
+70,Bandarawela,city,6.8333,80.9833,3.0,1500,True,0.65,1,0.78,0.55,0.88
+71,Badulla,city,6.9847,81.0578,2.5,1000,True,0.62,2,0.78,0.5,0.85
+72,Mahiyangana,city,7.3333,80.9833,2.0,500,True,0.55,2,0.72,0.4,0.82
+73,Ampara,city,7.2961,81.6739,2.5,1000,True,0.5,2,0.7,0.35,0.78
+74,Kegalle,city,7.2514,80.3464,2.0,500,True,0.55,3,0.85,0.5,0.85
+75,Ratnapura Gem Mines,cultural,6.6828,80.4036,3.0,2000,False,0.72,2,0.78,0.6,0.82
+76,Kitulgala Forest,adventure,6.9897,80.4181,4.0,2500,True,0.78,2,0.65,0.55,0.78
+77,Madu River Safari,adventure,6.4467,80.0411,3.0,3000,True,0.82,1,0.78,0.65,0.85
+78,Koggala Lake,cultural,5.9889,80.3289,2.5,1500,True,0.65,1,0.78,0.45,0.85
+79,Bentota River,adventure,6.4253,79.9978,3.0,3500,True,0.78,1,0.8,0.65,0.85
+80,Bolgoda Lake,cultural,6.7333,79.9000,2.5,1500,True,0.55,3,0.85,0.45,0.88
+81,Gregory Lake,cultural,6.9550,80.7689,2.0,500,True,0.78,1,0.92,0.75,0.92
+82,Victoria Park Nuwara Eliya,cultural,6.9696,80.7689,1.5,500,True,0.65,1,0.95,0.65,0.95
+83,Hakgala Botanical Garden,cultural,6.9197,80.8197,2.0,1500,True,0.78,1,0.85,0.65,0.92
+84,Handunugoda Tea Estate,cultural,6.0700,80.2856,2.0,1500,True,0.65,2,0.78,0.45,0.88
+85,Geoffrey Bawa Lunuganga,cultural,6.4639,79.9961,2.5,2500,True,0.65,3,0.75,0.45,0.92
+86,Independence Square Colombo,city,6.9067,79.8606,1.5,0,True,0.75,3,0.95,0.65,0.92
+87,Viharamahadevi Park,city,6.9119,79.8617,1.5,0,True,0.65,3,0.95,0.55,0.9
+88,Dehiwala Zoo,wildlife,6.8550,79.8728,3.0,2500,True,0.72,3,0.92,0.75,0.88
+89,Mount Lavinia Beach,beach,6.8378,79.8628,3.0,1000,True,0.78,3,0.92,0.75,0.85
+90,Dutch Hospital Shopping Colombo,city,6.9344,79.8431,2.0,1500,False,0.75,3,0.95,0.65,0.92
+91,Pettah Market,city,6.9389,79.8542,2.0,500,True,0.72,3,0.95,0.85,0.78
+92,Red Mosque (Jami Ul-Alfar),historical,6.9389,79.8533,1.0,0,False,0.75,3,0.92,0.75,0.85
+93,St. Anthony's Shrine Kochchikade,historical,6.9522,79.8597,1.0,0,False,0.65,3,0.92,0.55,0.88
+94,St. Mary's Cathedral Jaffna,historical,9.6644,80.0086,1.0,0,False,0.55,3,0.85,0.4,0.85
+95,Nallur Kandaswamy Kovil,temple,9.6753,80.0269,1.5,200,False,0.85,3,0.78,0.65,0.92
+96,Nagadeepa Purana Vihara,temple,9.6153,79.7667,3.0,1500,False,0.72,3,0.62,0.5,0.85
+97,Thiruketheeswaram Kovil,temple,8.9853,79.9022,1.5,200,False,0.65,3,0.65,0.45,0.85
+98,Koneswaram Temple Trincomalee,temple,8.5800,81.2503,2.0,200,True,0.85,3,0.78,0.7,0.92
+99,Embekke Devalaya,temple,7.2461,80.5733,1.5,300,False,0.65,3,0.65,0.45,0.88
+100,Lankatilaka Vihara,temple,7.2511,80.5811,1.5,300,True,0.68,3,0.65,0.45,0.88
+101,Gadaladeniya Temple,temple,7.2589,80.5572,1.0,200,False,0.62,3,0.65,0.4,0.88
+102,Aluvihare Rock Temple,temple,7.4836,80.6189,1.5,200,False,0.72,3,0.78,0.55,0.9
+103,Ridi Viharaya,temple,7.6792,80.5856,1.5,200,False,0.55,3,0.65,0.35,0.85
+104,Kalutara Bodhiya,temple,6.5847,79.9594,1.5,200,False,0.72,3,0.92,0.65,0.9
+105,Kande Viharaya,temple,6.4264,80.0089,1.5,200,True,0.65,3,0.85,0.45,0.88
+106,Seema Malakaya,temple,6.9189,79.8553,1.0,100,False,0.68,3,0.95,0.65,0.9
+107,Isurumuniya Vihara,temple,8.3275,80.3964,1.5,200,True,0.78,3,0.78,0.65,0.9
+108,Ruwanwelisaya,historical,8.3494,80.3964,1.5,200,True,0.88,3,0.78,0.8,0.92
+109,Thuparamaya,historical,8.3536,80.3961,1.0,200,True,0.78,3,0.78,0.65,0.92
+110,Jetavanaramaya,historical,8.3503,80.4036,1.5,200,True,0.85,3,0.78,0.65,0.9
+111,Abhayagiri Dagaba,historical,8.3608,80.3964,1.5,200,True,0.82,3,0.78,0.65,0.9
+112,Sri Maha Bodhi Tree,historical,8.3439,80.3961,1.0,200,True,0.92,3,0.78,0.85,0.92
+113,Tissa Wewa,cultural,8.3331,80.3911,1.0,0,True,0.65,3,0.85,0.45,0.88
+114,Parakrama Samudra,cultural,7.9333,81.0000,1.5,0,True,0.72,3,0.78,0.5,0.88
+115,Kandy Lake,cultural,7.2925,80.6417,1.0,0,True,0.85,3,0.95,0.85,0.95
+116,Beira Lake,cultural,6.9242,79.8533,1.0,0,True,0.55,3,0.95,0.55,0.85
+117,Dambulla Market,cultural,7.8606,80.6517,1.5,200,True,0.55,3,0.85,0.55,0.85
+118,Matale Spice Gardens,cultural,7.4675,80.6234,2.0,1500,True,0.72,3,0.85,0.55,0.88
+119,Bandaranaike Memorial National Conference Hall,city,6.9039,79.8606,1.0,500,False,0.55,3,0.92,0.45,0.92
+120,Old Parliament Building Colombo,historical,6.9344,79.8425,1.0,0,False,0.62,3,0.92,0.5,0.9
+121,Wolvendaal Church,historical,6.9408,79.8556,1.0,200,False,0.55,3,0.85,0.4,0.85
+122,Colombo Lighthouse,historical,6.9344,79.8403,0.5,0,True,0.62,3,0.92,0.55,0.88
+123,Arcade Independence Square,city,6.9061,79.8625,2.0,500,False,0.72,3,0.95,0.65,0.95
+124,Mount Lavinia Hotel,city,6.8331,79.8664,2.0,2000,True,0.65,3,0.92,0.55,0.92
+125,Crow Island Beach Park,beach,6.9686,79.8650,1.5,0,True,0.55,3,0.88,0.5,0.78
+126,Diyatha Uyana,city,6.8867,79.9222,2.0,0,True,0.65,3,0.92,0.65,0.88
+127,Waters Edge Battaramulla,city,6.8853,79.9183,2.5,2000,True,0.62,3,0.92,0.5,0.92
+128,Galle Face Hotel,city,6.9258,79.8447,1.5,1500,True,0.72,3,0.95,0.55,0.92
+129,Wellawatte Beach,beach,6.8742,79.8589,2.0,0,True,0.55,3,0.85,0.65,0.78
+130,Nelum Pokuna Theatre,city,6.9114,79.8614,2.0,1500,False,0.55,3,0.92,0.45,0.92
+131,Bahirawakanda Vihara Buddha Statue,temple,7.3000,80.6275,1.5,200,True,0.78,3,0.85,0.65,0.9
+132,Udawattekele Sanctuary,national_park,7.2978,80.6433,2.5,600,True,0.65,3,0.78,0.45,0.85
+133,Royal Palace Kandy,historical,7.2937,80.6411,1.5,1500,False,0.78,3,0.85,0.75,0.92
+134,Ceylon Tea Museum Hantana,cultural,7.2697,80.6286,2.0,1000,False,0.72,3,0.78,0.55,0.9
+135,Kandy View Point,mountain,7.3019,80.6261,1.0,0,True,0.72,3,0.78,0.65,0.85
+136,Helga's Folly,cultural,7.2942,80.6483,1.5,1500,False,0.62,3,0.85,0.4,0.88
+137,Degaldoruwa Cave Temple,temple,7.3017,80.6856,1.5,200,False,0.55,3,0.72,0.35,0.88
+138,Gampola Saliyalapura,historical,7.1647,80.5728,1.5,200,True,0.5,3,0.78,0.3,0.85
+139,Dunhinda Falls,waterfall,7.0153,81.0964,1.5,200,True,0.75,2,0.72,0.55,0.85
+140,Hanthana Mountain Range,mountain,7.2497,80.6081,4.0,500,True,0.68,3,0.62,0.55,0.78
+141,Wales Park Kandy,city,7.2911,80.6347,1.0,0,True,0.55,3,0.92,0.45,0.92
+142,Lankarama,historical,8.3658,80.3792,1.0,200,True,0.62,3,0.78,0.45,0.9
+143,Kuttam Pokuna Twin Ponds,historical,8.3603,80.4039,1.0,200,True,0.72,3,0.78,0.55,0.9
+144,Samadhi Buddha Statue Anuradhapura,historical,8.3589,80.4014,1.0,200,True,0.78,3,0.78,0.65,0.92
+145,Mirisaweti Stupa,historical,8.3392,80.3878,1.0,200,True,0.72,3,0.78,0.55,0.92
+146,Magul Uyana,historical,8.3464,80.3992,0.5,0,True,0.55,3,0.78,0.35,0.88
+147,Vessagiriya,historical,8.3197,80.3956,1.0,200,True,0.55,3,0.72,0.35,0.88
+148,Gal Vihara,historical,7.9647,81.0058,1.5,1500,True,0.85,3,0.78,0.75,0.92
+149,Royal Palace Polonnaruwa,historical,7.9389,81.0017,1.5,1500,True,0.78,3,0.78,0.65,0.9
+150,Rankoth Vehera,historical,7.9519,81.0050,1.0,200,True,0.72,3,0.78,0.5,0.92
+151,Vatadage Polonnaruwa,historical,7.9472,81.0014,1.0,1500,True,0.82,3,0.78,0.65,0.92
+152,Lankatilaka Image House,historical,7.9558,81.0044,1.0,200,True,0.72,3,0.78,0.5,0.9
+153,Kiri Vehera Polonnaruwa,historical,7.9528,81.0022,0.5,200,True,0.65,3,0.78,0.45,0.9
+154,Medirigiriya Vatadage,historical,8.1431,80.9964,1.5,500,True,0.55,3,0.65,0.3,0.88
+155,Somawathiya Chaitya,temple,8.0667,81.0833,1.5,200,True,0.55,3,0.65,0.4,0.88
+156,Kurunegala Lake,cultural,7.4858,80.3636,1.5,0,True,0.62,3,0.92,0.55,0.92
+157,Athugala Elephant Rock,mountain,7.4806,80.3700,2.0,200,True,0.65,3,0.85,0.55,0.85
+158,Ibbagamuwa Yapahuwa Rock Fortress,historical,7.8168,80.3107,2.5,1500,True,0.72,3,0.72,0.45,0.85
+159,Panduwasnuwara Ancient City,historical,7.6847,80.0033,2.0,1500,True,0.55,3,0.65,0.3,0.85
+160,Padeniya Raja Maha Viharaya,temple,7.7028,80.1928,1.0,200,False,0.55,3,0.72,0.35,0.88
+161,Ridigama Temple,temple,7.6792,80.5856,1.5,200,False,0.5,3,0.65,0.3,0.85
+162,Arankele Forest Monastery,temple,7.5569,80.4456,2.0,200,True,0.55,3,0.65,0.3,0.85
+163,Bible Rock (Bathalegala),mountain,7.2333,80.5667,5.0,500,True,0.65,3,0.55,0.45,0.78
+164,Utuwankanda (Saradiel Village),cultural,7.2347,80.4306,1.5,1000,True,0.55,3,0.78,0.4,0.85
+165,Beli Lena Kithulgala,historical,6.9928,80.4117,1.5,500,True,0.55,2,0.55,0.35,0.78
+166,Millennium Elephant Foundation,wildlife,7.3022,80.3947,2.0,3000,True,0.72,3,0.85,0.55,0.88
+167,Galle Lighthouse,historical,6.0258,80.2186,0.5,0,True,0.78,3,0.92,0.65,0.9
+168,Galle Maritime Museum,cultural,6.0269,80.2178,1.5,500,False,0.62,3,0.92,0.55,0.92
+169,Japanese Peace Pagoda Unawatuna,temple,6.0028,80.2419,1.0,0,True,0.72,1,0.85,0.55,0.88
+170,Sea Turtle Hatchery Kosgoda,wildlife,6.3389,80.0067,1.5,1500,True,0.78,1,0.85,0.65,0.92
+171,Stilt Fishermen Koggala,cultural,5.9889,80.3275,0.5,1000,True,0.85,1,0.92,0.85,0.85
+172,Kataluwa Purvarama Temple,temple,5.9811,80.4106,1.0,200,False,0.5,3,0.72,0.3,0.85
+173,Yatagala Raja Maha Viharaya,temple,6.0214,80.2614,1.0,200,False,0.55,3,0.78,0.35,0.88
+174,Hiyare Reservoir,national_park,6.0822,80.2750,2.0,500,True,0.55,3,0.65,0.3,0.82
+175,Rumassala Hill,mountain,6.0142,80.2308,2.0,200,True,0.62,3,0.72,0.4,0.85
+176,Star Fort Matara,historical,5.9489,80.5417,1.0,200,False,0.55,3,0.85,0.4,0.88
+177,Matara Dutch Fort,historical,5.9483,80.5453,1.0,0,True,0.55,3,0.85,0.45,0.88
+178,Polhena Beach,beach,5.9411,80.5300,3.0,500,True,0.62,1,0.78,0.55,0.85
+179,Madiha Beach,beach,5.9408,80.5717,3.0,500,True,0.65,1,0.78,0.55,0.85
+180,Weherahena Temple,temple,5.9636,80.5733,1.0,200,False,0.55,3,0.78,0.4,0.88
+181,Dondra Head Lighthouse,historical,5.9239,80.5919,1.0,200,True,0.65,3,0.78,0.45,0.85
+182,Wewurukannala Vihara,temple,6.0414,80.6125,1.0,200,False,0.62,3,0.78,0.4,0.88
+183,Sigiriya Museum,cultural,7.9528,80.7522,1.0,500,False,0.65,3,0.85,0.55,0.92
+184,Kandalama Reservoir,cultural,7.8642,80.7128,1.5,0,True,0.55,3,0.72,0.35,0.85
+185,Heritance Kandalama Hotel,cultural,7.8694,80.7236,1.5,2500,True,0.72,3,0.78,0.4,0.92
+186,Namal Uyana Pink Quartz Mountain,mountain,8.0392,80.6647,3.0,500,True,0.65,3,0.65,0.4,0.85
+187,Pidurangala Royal Cave Temple,temple,7.9706,80.7567,1.0,500,True,0.62,3,0.65,0.5,0.85
+188,Kaludiya Pokuna,historical,8.3458,80.5111,1.5,200,True,0.55,3,0.65,0.3,0.85
+189,Pedro Tea Estate,cultural,6.9489,80.8131,1.5,1000,True,0.78,1,0.85,0.65,0.92
+190,Bluefield Tea Gardens,cultural,6.9856,80.6822,1.5,1000,True,0.72,1,0.85,0.55,0.92
+191,Galway's Land National Park,national_park,6.9719,80.7842,1.5,1000,True,0.55,1,0.78,0.35,0.85
+192,Ambewela Farm,cultural,6.8806,80.8228,2.0,1000,True,0.65,1,0.78,0.5,0.9
+193,Sita Amman Temple,temple,6.9261,80.7903,1.0,200,False,0.62,1,0.85,0.45,0.88
+194,Single Tree Hill,mountain,6.9456,80.7572,2.0,0,True,0.55,1,0.65,0.4,0.82
+195,Lover's Leap Falls Nuwara Eliya,waterfall,6.9744,80.7886,1.5,0,True,0.62,1,0.65,0.45,0.82
+196,Moon Plains,mountain,6.9617,80.8175,3.0,1500,True,0.65,1,0.65,0.45,0.85
+197,Damro Labookellie Tea Centre,cultural,7.0028,80.7361,1.0,500,True,0.72,1,0.92,0.55,0.92
+198,Casuarina Beach,beach,9.8025,79.7800,3.0,0,True,0.62,2,0.65,0.4,0.82
+199,Keerimalai Springs,cultural,9.8197,80.0144,1.5,0,True,0.55,2,0.65,0.35,0.82
+200,Dambakola Patuna,historical,9.8131,80.0833,1.0,200,True,0.5,2,0.62,0.3,0.82
+201,Point Pedro,city,9.8192,80.2400,2.0,0,True,0.55,2,0.65,0.3,0.82
+202,Delft Island,historical,9.5208,79.6864,5.0,1500,True,0.55,2,0.55,0.25,0.78
+203,Jaffna Public Library,cultural,9.6644,80.0167,1.0,0,False,0.65,3,0.85,0.4,0.85
+204,Marble Beach Trincomalee,beach,8.5394,81.2403,3.0,500,True,0.72,2,0.78,0.5,0.85
+205,Fort Frederick Trincomalee,historical,8.5808,81.2492,1.5,200,True,0.65,2,0.78,0.5,0.85
+206,Hot Wells Kanniya,cultural,8.6244,81.1981,1.0,200,True,0.55,2,0.78,0.45,0.82
+207,Whale Watching Trincomalee,wildlife,8.5874,81.2152,4.0,6000,True,0.78,2,0.65,0.55,0.78
+208,Lover's Leap Trincomalee,mountain,8.5811,81.2486,0.5,0,True,0.55,2,0.78,0.35,0.78
+209,Little Adam's Peak,mountain,6.8617,81.0628,2.0,0,True,0.85,2,0.78,0.75,0.85
+210,Ravana Cave,historical,6.8650,81.0517,1.0,500,True,0.62,2,0.65,0.45,0.78
+211,Demodara Nine Arch Spiral,cultural,6.8814,81.0789,1.0,0,True,0.65,2,0.72,0.55,0.85
+212,Halpewatte Tea Factory,cultural,6.8714,81.0500,1.5,1000,False,0.72,2,0.78,0.55,0.92
+213,Whale Watching Mirissa,wildlife,5.9462,80.4586,5.0,6000,True,0.85,1,0.65,0.75,0.78
+214,Coconut Tree Hill Mirissa,cultural,5.9447,80.4639,0.5,0,True,0.78,1,0.85,0.85,0.85
+215,Secret Beach Mirissa,beach,5.9456,80.4517,2.5,500,True,0.65,1,0.72,0.5,0.82
+216,Parrot Rock Mirissa,beach,5.9458,80.4575,1.0,0,True,0.62,1,0.78,0.55,0.82
+217,Yala Block 5 (Lunugamvehera),national_park,6.4500,81.2167,4.0,5000,True,0.65,1,0.55,0.35,0.82
+218,Tangalle Goyambokka Beach,beach,6.0119,80.7708,3.0,500,True,0.72,1,0.78,0.45,0.85
+219,Hummanaya Blowhole,cultural,6.0083,80.7961,1.0,500,True,0.62,1,0.78,0.4,0.85
+220,Rekawa Beach Turtle Watching,wildlife,6.0497,80.8519,2.0,1500,True,0.65,2,0.72,0.45,0.82
+221,Kalametiya Bird Sanctuary,wildlife,6.0792,80.9300,2.5,1500,True,0.55,2,0.65,0.35,0.82
+222,Ussangoda National Park,national_park,6.0953,80.9789,2.0,1000,True,0.55,2,0.65,0.3,0.82
+223,Mulkirigala Buddhist Cave Temple,temple,6.2667,80.7667,2.0,1000,True,0.65,3,0.65,0.4,0.88
+224,Munneswaram Temple,temple,7.5833,79.8278,1.5,200,False,0.55,3,0.72,0.35,0.85
+225,St. Anne's Church Talawila,historical,8.0411,79.7281,1.5,0,False,0.62,3,0.78,0.4,0.85
+226,Chilaw Beach,beach,7.5747,79.7950,2.0,0,True,0.55,1,0.72,0.4,0.78
+227,Anawilundawa Wetland Sanctuary,wildlife,7.6989,79.8275,2.5,1000,True,0.55,2,0.65,0.3,0.82
+228,Kalpitiya Dolphin Watching,wildlife,8.2333,79.7667,4.0,5000,True,0.78,1,0.65,0.55,0.78
+229,Riverston Knuckles,mountain,7.5256,80.7619,4.0,500,True,0.65,1,0.55,0.4,0.78
+230,Pitawala Pathana,mountain,7.5333,80.7500,2.0,500,True,0.65,1,0.55,0.4,0.78
+231,Sera Ella Falls,waterfall,7.5333,80.8167,1.5,200,True,0.55,2,0.55,0.3,0.78
+232,Aberdeen Falls,waterfall,6.8500,80.5333,2.0,200,True,0.62,2,0.55,0.35,0.78
+233,Laxapana Falls,waterfall,6.8833,80.5167,1.5,200,True,0.65,2,0.65,0.4,0.82
+234,Bopath Ella Falls,waterfall,6.8167,80.3500,1.5,200,True,0.62,2,0.78,0.45,0.82
+235,Gartmore Falls,waterfall,6.8167,80.6,1.0,0,True,0.55,2,0.55,0.3,0.78
+236,Kuruwita Bopath Falls,waterfall,6.8242,80.3850,1.5,200,True,0.62,2,0.72,0.4,0.82
+237,Diyaluma Top Pools,waterfall,6.7322,81.0383,3.0,200,True,0.78,2,0.55,0.55,0.72
+238,Saman Devalaya Ratnapura,temple,6.6831,80.4072,1.0,200,False,0.55,3,0.78,0.35,0.88
+239,Pothgul Vihara,temple,7.9417,81.0019,1.0,200,True,0.62,3,0.72,0.4,0.88
+240,Sankhapala Rajamaha Viharaya,temple,6.4633,80.7519,1.0,200,True,0.5,3,0.65,0.3,0.85
+241,National Museum Ratnapura,cultural,6.6789,80.3869,1.5,500,False,0.55,3,0.78,0.35,0.88
+242,Adisham Bungalow Haputale,cultural,6.7708,80.9528,1.5,500,False,0.65,1,0.78,0.4,0.9
+243,Lipton Tea Estate Dambatenne,cultural,6.8178,80.9767,1.5,500,True,0.65,1,0.78,0.45,0.9
+244,Diyaluma Pools (Upper),waterfall,6.7311,81.0392,3.0,200,True,0.72,2,0.55,0.55,0.75
+245,Pasikuda Lagoon,beach,7.9272,81.5664,3.0,500,True,0.62,2,0.78,0.45,0.82
+246,Kallady Bridge Batticaloa,city,7.7081,81.7036,0.5,0,True,0.55,2,0.85,0.4,0.82
+247,Batticaloa Lighthouse,historical,7.7136,81.7028,1.0,200,True,0.55,2,0.78,0.35,0.82
+248,Pottuvil Lagoon,wildlife,6.8722,81.8317,2.5,1500,True,0.62,2,0.65,0.35,0.78
+249,Whiskey Point Arugam Bay,beach,6.8972,81.8461,3.0,0,True,0.78,2,0.65,0.55,0.8
+250,Peanut Farm Beach,beach,6.8244,81.8367,3.0,0,True,0.72,2,0.62,0.45,0.78
+251,Lahugala National Park,national_park,6.9222,81.7472,3.5,4500,True,0.55,2,0.55,0.3,0.78
+252,Magul Maha Viharaya,temple,6.9319,81.7444,1.0,200,True,0.5,3,0.62,0.25,0.85
+253,Gal Oya Senanayake Samudraya,cultural,7.2167,81.4833,2.5,0,True,0.55,3,0.55,0.3,0.82
+254,Brief Garden Bevis Bawa,cultural,6.5067,80.0078,2.0,1500,True,0.65,3,0.78,0.4,0.92
+255,Madu Ganga Mangrove,wildlife,6.3047,80.0489,3.0,2500,True,0.78,1,0.78,0.55,0.85
+256,Ahungalla Beach,beach,6.3294,80.0150,3.0,500,True,0.62,1,0.78,0.4,0.82
+257,Induruwa Beach,beach,6.3697,80.0033,3.0,500,True,0.65,1,0.78,0.4,0.82
+258,Beruwala Beach,beach,6.4789,79.9831,3.0,500,True,0.68,1,0.85,0.55,0.85
+259,Wadduwa Beach,beach,6.6608,79.9269,3.0,500,True,0.65,1,0.85,0.45,0.85
+260,Kalutara Beach,beach,6.5825,79.9594,3.0,500,True,0.65,1,0.85,0.5,0.85
+261,Battaramulla Wetland Park,national_park,6.8989,79.9189,2.0,200,True,0.55,3,0.85,0.35,0.85
+262,Talangama Wetland,wildlife,6.9000,79.9500,1.5,0,True,0.5,3,0.78,0.25,0.82
+263,Attidiya Bird Sanctuary,wildlife,6.8333,79.8833,1.5,0,True,0.5,3,0.78,0.25,0.82
+264,Sri Jayewardenepura Kotte Parliament,historical,6.8842,79.9189,1.0,0,True,0.62,3,0.92,0.3,0.92
+265,Avukana Statue,historical,8.0244,80.4864,1.0,200,True,0.62,3,0.65,0.4,0.85
+266,Ranminitenna Tele Cinema Park,cultural,6.0519,81.2461,2.0,1500,True,0.5,3,0.65,0.25,0.85
+267,Maritime Archaeology Museum Galle,cultural,6.0250,80.2161,1.5,500,False,0.55,3,0.92,0.35,0.92
+268,Kalpitiya Lagoon,beach,8.2333,79.7667,3.0,1000,True,0.65,1,0.65,0.4,0.82
+269,Wilpattu Buffer Zone,wildlife,8.4500,80.0500,3.0,4000,True,0.55,1,0.55,0.3,0.78
+270,Eastern Galle Fort Ramparts,historical,6.0289,80.2206,1.5,0,True,0.78,3,0.92,0.65,0.92
+271,Baker's Falls,waterfall,6.8047,80.7950,1.0,0,True,0.65,1,0.62,0.4,0.85
+272,Mini World's End Riverston,mountain,7.5314,80.7614,2.0,500,True,0.55,1,0.55,0.35,0.78
+273,Galagedara Waterfall,waterfall,7.2583,80.5306,1.0,0,True,0.45,2,0.65,0.2,0.78
+274,Geli Ella Falls,waterfall,7.05,80.7833,1.0,0,True,0.5,2,0.55,0.25,0.78
+275,Hunnasgiriya Falls,waterfall,7.3833,80.7833,1.0,0,True,0.45,2,0.55,0.25,0.78
+276,Ahas Gawwa Falls,waterfall,6.7167,80.9667,1.5,0,True,0.5,2,0.55,0.3,0.75
+277,Pahanthudawa Falls,waterfall,6.7833,80.8833,1.5,0,True,0.55,2,0.55,0.3,0.78
+278,Lankathilake Temple Polonnaruwa,historical,7.9558,81.0044,1.0,0,True,0.65,3,0.78,0.5,0.9
+279,Tivanka Image House,historical,7.9586,81.0067,1.0,0,True,0.62,3,0.78,0.45,0.9
+280,Galpotha Stone Book,historical,7.9494,81.0014,0.5,0,True,0.62,3,0.78,0.4,0.9
+281,Demala Maha Seya,historical,7.9614,81.0103,1.0,0,True,0.55,3,0.72,0.35,0.88
+282,Anuradhapura Archaeological Museum,cultural,8.3478,80.3994,1.5,500,False,0.62,3,0.78,0.4,0.92
+283,Polonnaruwa Archaeological Museum,cultural,7.9456,81.0028,1.5,500,False,0.65,3,0.78,0.45,0.92
+284,Kandy Garrison Cemetery,historical,7.2933,80.6378,1.0,200,True,0.55,3,0.85,0.3,0.88
+285,Kandy National Museum,cultural,7.2935,80.6411,1.5,500,False,0.65,3,0.92,0.45,0.92
+286,Lankathilaka Image House Polonnaruwa,historical,7.9558,81.0044,1.0,200,True,0.65,3,0.78,0.45,0.9
+287,Elephant Transit Home Udawalawe,wildlife,6.4892,80.8389,2.0,1500,True,0.78,3,0.78,0.65,0.92
+288,Sea Turtle Conservation Bentota,wildlife,6.4225,79.9989,1.0,1000,True,0.65,1,0.85,0.45,0.9
+289,Kosgoda Turtle Hatchery,wildlife,6.3333,80.0167,1.0,1000,True,0.65,1,0.85,0.5,0.9
+290,Habarana Elephant Safari,wildlife,8.0353,80.7536,3.0,4500,True,0.78,3,0.78,0.65,0.85
+291,Hurulu Eco Park,wildlife,8.0939,80.8358,3.5,5000,True,0.72,3,0.78,0.55,0.85
+292,Kaudulla National Park,national_park,8.1303,80.9542,4.0,6000,True,0.78,2,0.72,0.55,0.85
+293,Hiriketiya Surf Bay,adventure,5.9711,80.7000,4.0,2000,True,0.78,1,0.78,0.65,0.85
+294,Weligama Surf Beach,adventure,5.9744,80.4297,4.0,2000,True,0.82,1,0.85,0.75,0.85
+295,Madiha Surf Point,adventure,5.9408,80.5717,3.5,2000,True,0.65,1,0.78,0.5,0.82
+296,Ahangama Surf,adventure,5.9719,80.3686,3.5,2000,True,0.72,1,0.78,0.55,0.82
+297,Kalpitiya Kitesurfing,adventure,8.2333,79.7667,5.0,8000,True,0.78,1,0.65,0.55,0.8
+298,Belihul Oya,adventure,6.7333,80.7833,4.0,1000,True,0.55,2,0.62,0.3,0.78
+299,Kelani River Rafting,adventure,6.9897,80.4181,4.0,6000,True,0.78,2,0.65,0.55,0.75
+300,Hortain Plains Trekking,adventure,6.8103,80.7958,5.0,4500,True,0.85,1,0.65,0.7,0.85
+301,Knuckles Trekking Mini World's End,adventure,7.4500,80.7667,6.0,4000,True,0.72,1,0.55,0.5,0.78
+302,Madulsima Cliffs,mountain,7.0833,81.1167,4.0,500,True,0.55,1,0.55,0.35,0.75
+303,Cinnamon Plantation Galle,cultural,6.0500,80.2167,1.5,1000,True,0.62,3,0.78,0.4,0.88
+304,Mlesna Tea Castle Talawakelle,cultural,6.9408,80.6592,1.5,1000,True,0.62,1,0.78,0.4,0.88
+305,Dambatenne Tea Factory,cultural,6.8178,80.9767,1.5,500,False,0.65,1,0.78,0.45,0.92
+306,Heritance Tea Factory Kandapola,cultural,6.9839,80.8500,1.5,1500,False,0.62,1,0.78,0.4,0.92
+307,Spice Garden Matale,cultural,7.4675,80.6234,1.5,1000,True,0.65,3,0.85,0.5,0.88
+308,Henarathgoda Botanical Garden,cultural,7.0944,79.9889,1.5,500,True,0.55,3,0.85,0.3,0.92
+309,Mihiripenna Beach,beach,5.9667,80.3667,3.0,0,True,0.55,1,0.72,0.35,0.82
+310,Habaraduwa Beach,beach,5.9833,80.3000,3.0,0,True,0.55,1,0.72,0.35,0.82
+311,Talalla Beach,beach,5.9333,80.6333,3.5,500,True,0.62,1,0.72,0.35,0.85
+312,Dikwella Beach,beach,5.9667,80.6833,3.5,500,True,0.62,1,0.72,0.35,0.82
+313,Hiriketiya Beach,beach,5.9711,80.7000,4.0,500,True,0.85,1,0.78,0.75,0.88
+314,Mall of Asia Galle,city,6.0481,80.2206,2.0,500,False,0.55,3,0.92,0.4,0.92
+315,One Galle Face Mall,city,6.9269,79.8447,3.0,500,False,0.65,3,0.95,0.55,0.92
+316,Colombo City Centre Mall,city,6.9167,79.8553,3.0,500,False,0.55,3,0.95,0.45,0.92
+317,Kandy City Centre Mall,city,7.2917,80.6411,2.0,500,False,0.55,3,0.92,0.4,0.92
+318,Independence Arcade Colombo,city,6.9061,79.8625,2.0,500,False,0.62,3,0.92,0.45,0.92
+319,Park Street Mews,city,6.9039,79.8597,2.0,1000,False,0.55,3,0.92,0.35,0.92
+320,Cinnamon Gardens,city,6.9089,79.8633,1.5,0,True,0.55,3,0.92,0.3,0.92
+321,Asgiriya Maha Viharaya Kandy,temple,7.2961,80.6361,1.0,200,False,0.62,3,0.85,0.35,0.9
+322,Malwathu Maha Viharaya Kandy,temple,7.2917,80.6428,1.0,200,False,0.62,3,0.85,0.35,0.9
+323,Embekka Devale Kandy,temple,7.2461,80.5733,1.5,300,True,0.65,3,0.65,0.45,0.88
+324,Natha Devale Kandy,temple,7.2933,80.6406,0.5,100,False,0.55,3,0.92,0.4,0.9
+325,Vishnu Devale Kandy,temple,7.2933,80.6411,0.5,100,False,0.55,3,0.92,0.4,0.9
+326,Pattini Devale Kandy,temple,7.2931,80.6406,0.5,100,False,0.55,3,0.92,0.35,0.9
+327,Kataragama Devale Kandy,temple,7.2931,80.6403,0.5,100,False,0.55,3,0.92,0.35,0.9
+328,Wasgamuwa National Park,national_park,7.7500,80.9333,5.0,6000,True,0.62,2,0.55,0.35,0.78
+329,Galway's Forest Lodge,national_park,6.9719,80.7842,1.5,500,True,0.55,1,0.78,0.3,0.85
+330,Sembuwatta Lake,cultural,7.4750,80.7222,2.0,500,True,0.55,2,0.65,0.3,0.82
+331,Loolecondera Estate,cultural,7.1833,80.7833,2.5,500,True,0.55,2,0.65,0.3,0.85
+332,Hunas Falls,waterfall,7.4167,80.7333,1.5,200,True,0.55,2,0.65,0.3,0.82
+333,Kothmale Reservoir,cultural,7.0500,80.6500,1.5,0,True,0.5,2,0.65,0.25,0.82
+334,Victoria Reservoir,cultural,7.2333,80.7833,1.5,0,True,0.55,2,0.65,0.3,0.82
+335,Randenigala Reservoir,cultural,7.1667,80.9333,1.5,0,True,0.5,2,0.55,0.25,0.82
+336,Castlereagh Reservoir,cultural,6.8833,80.5833,2.0,0,True,0.55,2,0.65,0.3,0.85
+337,Maussakelle Reservoir,cultural,6.8333,80.5167,2.0,0,True,0.55,2,0.65,0.3,0.82
+338,Kotmale Mahaweli Maha Seya,temple,7.0500,80.6500,1.0,200,True,0.5,3,0.65,0.25,0.85
+339,Kandapola Forest,national_park,6.9839,80.8500,2.0,500,True,0.55,1,0.65,0.3,0.82
+340,Hagala Forest,national_park,6.9197,80.8197,2.0,200,True,0.55,1,0.78,0.35,0.85
+341,Strawberry Farm Nuwara Eliya,cultural,6.8806,80.8228,1.0,500,True,0.62,1,0.85,0.35,0.9
+342,Nuwara Eliya Golf Club,city,6.9661,80.7661,4.0,5000,True,0.55,1,0.78,0.35,0.92
+343,Nuwara Eliya Post Office,historical,6.9683,80.7689,0.5,0,False,0.55,1,0.92,0.3,0.92
+344,Grand Hotel Nuwara Eliya,city,6.9683,80.7700,1.0,1500,True,0.62,1,0.92,0.35,0.92
+345,Yapahuwa Rock Fortress,historical,7.8168,80.3107,2.5,1500,True,0.72,3,0.65,0.45,0.85
+346,Dedigama Suthighara Cetiya,historical,7.2167,80.4333,1.5,200,True,0.55,3,0.62,0.3,0.85
+347,Kurunegala Ethugala Buddha,temple,7.4806,80.3700,1.5,200,True,0.65,3,0.85,0.5,0.88
+348,Galmaduwa Temple Kandy,temple,7.3056,80.6889,1.0,200,True,0.5,3,0.78,0.25,0.85
+349,Lankathilaka Vihara Kandy,temple,7.2511,80.5811,1.5,300,True,0.68,3,0.65,0.45,0.88
+350,Suriyagoda Viharaya,temple,7.2611,80.5944,1.0,200,False,0.5,3,0.65,0.25,0.85
+351,Hindagala Viharaya,temple,7.2306,80.6128,1.0,200,True,0.5,3,0.62,0.25,0.85
+352,Manalkadu Desert,cultural,9.7833,80.2333,2.0,200,True,0.5,2,0.55,0.25,0.78
+353,Kayts Island,cultural,9.6833,79.8500,3.0,500,True,0.5,2,0.62,0.25,0.8
+354,Karainagar Island,cultural,9.7333,79.8667,3.0,500,True,0.45,2,0.62,0.25,0.8
+355,Velanai Island,cultural,9.6500,79.8833,3.0,500,True,0.45,2,0.62,0.25,0.8
+356,Nagadeepa Island,cultural,9.6153,79.7667,4.0,1500,True,0.55,2,0.62,0.3,0.82
+357,Jaffna Archaeological Museum,cultural,9.6644,80.0167,1.5,200,False,0.55,3,0.85,0.3,0.88
+358,Kanniya Hot Springs,cultural,8.6244,81.1981,1.0,200,True,0.62,2,0.78,0.45,0.82
+359,Maha Vishnu Devalaya Devinuwara,temple,5.9239,80.5919,1.0,200,False,0.55,3,0.78,0.35,0.88
+360,Tewatte Basilica,historical,7.0894,79.9047,1.0,0,False,0.62,3,0.85,0.35,0.88
+361,Adam's Bridge Talaimannar,historical,9.0900,79.7281,3.0,500,True,0.55,2,0.62,0.3,0.8
+362,Negombo Lagoon,wildlife,7.1833,79.8333,2.0,1000,True,0.55,1,0.85,0.4,0.82
+363,Negombo Dutch Fort,historical,7.2092,79.8350,1.0,200,True,0.55,3,0.92,0.35,0.85
+364,Muthurajawela Marsh,wildlife,7.0667,79.8667,2.5,1500,True,0.62,1,0.78,0.45,0.82
+365,Pamunugama Beach,beach,7.0833,79.8500,2.5,0,True,0.55,1,0.72,0.35,0.78
+366,Galkadawala Forest Lodge,national_park,8.0500,80.7000,2.0,500,True,0.5,3,0.55,0.25,0.82
